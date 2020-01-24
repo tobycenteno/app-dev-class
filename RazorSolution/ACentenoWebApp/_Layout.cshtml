@@ -1,8 +1,8 @@
 ﻿<!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <title>@Page.Title</title>
-    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <script src="~/Scripts/jquery-3.4.1.js"></script>
     <link href="~/Content/bootstrap.css" rel="stylesheet" />
     <script src="~/Scripts/bootstrap.js"></script>
 
@@ -13,7 +13,7 @@
         @RenderPage("~/_Menu.cshtml");
 
         <div class="jumbotron">
-            @RenderSection("banner", required: true)
+            @RenderSection("pagetitle", required: true)
         </div>
 
         <br />

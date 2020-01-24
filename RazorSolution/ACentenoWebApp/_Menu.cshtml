@@ -1,0 +1,30 @@
+﻿ <!--this will be the menu area-->
+<div class="navbar navbar-default navbar-fixed-top">
+    <!--this will be the title on the menu-->
+    <div class="navbar-header">
+        <a class="navbar-brand" style="font-size:x-large">
+            <strong>
+                CPSC1517
+            </strong>
+        </a>
+    </div>
+    <!--this will be the menu root items-->
+    <ul class="nav navbar-nav">
+        <!--this will be a menu item-->
+        <li><a href="@Href("~/index.cshtml")">Home</a></li>
+        <!--this will be the drop down menu-->
+        <li class="dropdown">
+            <!--this will be the dropdown menu root item-->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Exercises
+                <b class="caret"></b>
+            </a>
+            <!--this will be the dropdown menu items-->
+            <ul class="dropdown-menu">
+                <li><a href="@Href("~/ExercisePages/Exercise01.cshtml")">Exercise 01</a></li>
+            </ul>
+        </li>
+    </ul>
+</div>
+<br />
+<br />

@@ -1,0 +1,32 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Exercise01";
+    var customername = Request.Form["customername"];
+}
+@section pagetitle{
+    <div>Exercise01: Basic Form Processing</div> }
+@if (IsPost)
+{
+    <h1>You Entered @customername</h1>
+}
+
+<form action="" method="post" id="EX01">
+    <div class="row">
+        <div class="col-md-3">
+            <p>Customer Name:</p>
+            <input id="Text1" type="text" name="customername" /><br /><br />
+            <input class="btn btn-primary" id="Submit1" type="submit" value="Submit" />
+            <input class="btn" id="Reset1" type="submit" value="Reset" />
+        </div>
+        <div class="col-md-9">
+            <label>Choose your menu items:</label><br />
+            <input id="Checkbox1" type="checkbox" value="" /> Steak<br />
+            <input id="Checkbox1" type="checkbox" /> Seafood<br />
+            <input id="Checkbox1" type="checkbox" /> Vegetables
+        </div>
+    </div>
+    <div class="row">
+        </div>
+</form>
+
+

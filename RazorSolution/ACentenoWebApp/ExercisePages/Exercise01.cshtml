@@ -5,16 +5,21 @@
 }
 @section pagetitle{
     <div>Exercise01: Basic Form Processing</div> }
-@if (IsPost)
-{
-    <h1>You Entered @customername</h1>
+
+@{
+    var custName = Request["CustomerName"];
+
+    if (IsPost)
+    {
+        <h4>@custName, I see that you have the following meal entries:</h4>
+    }
 }
 
 <form action="" method="post" id="EX01">
     <div class="row">
         <div class="col-md-3">
             <p>Customer Name:</p>
-            <input id="Text1" type="text" name="customername" /><br /><br />
+            <input id="CustomerName" type="text" name="customername" /><br /><br />
             <input class="btn btn-primary" id="Submit1" type="submit" value="Submit" />
             <input class="btn" id="Reset1" type="submit" value="Reset" />
         </div>
@@ -26,7 +31,7 @@
         </div>
     </div>
     <div class="row">
-        </div>
+    </div>
 </form>
 
 

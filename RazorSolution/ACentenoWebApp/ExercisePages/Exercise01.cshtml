@@ -1,33 +1,71 @@
 ﻿@{
     Layout = "~/_Layout.cshtml";
     Page.Title = "Exercise01";
-    var customername = Request.Form["customername"];
-}
-@section pagetitle{
-    <div>Exercise01: Basic Form Processing</div> }
 
-@{
-    var custName = Request["CustomerName"];
+    var customerName = Request.Form["customerName"];
+    var formButton = Request.Form["formButton"];
+    var menuChoice = Request.Form["menuGroup"];
 
     if (IsPost)
     {
-        <h4>@custName, I see that you have the following meal entries:</h4>
+        if (formButton.Equals("Reset"))
+        {
+            customerName = "";
+        }
+        else
+        {
+            if (customerName.Equals("") && menuChoice.IsEmpty())
+            {
+                <div class="alert alert-danger" role="alert">
+                    Please enter a customer name and select meal entries of your choice.
+                </div>
+            }
+            else if (customerName.Equals("") && !menuChoice.IsEmpty())
+            {
+                <div class="alert alert-danger" role="alert">
+                    Please enter a customer name.
+                </div>
+            }
+            else if (!customerName.Equals("") && menuChoice.IsEmpty())
+            {
+                <div class="alert alert-danger" role="alert">
+                    Please select meal entries of your choice.
+                </div>
+            }
+            else
+            {
+                char[] delimiter = { ',' };
+
+                <div class="alert alert-success">
+                    <h5><strong>@customerName</strong>, I see that you have the following meal entries:</h5>
+                    <ul>
+                        @foreach (var menu in menuChoice.Split(delimiter))
+                        {
+                            <li>@menu</li>
+                        }
+                    </ul>
+                </div>
+            }
+        }
     }
 }
 
+@section pagetitle{
+    <span style="font-size:xx-large"><strong>Exercise01: Basic Form Processing</strong></span>
+}
 <form action="" method="post" id="EX01">
     <div class="row">
         <div class="col-md-3">
             <p>Customer Name:</p>
-            <input id="CustomerName" type="text" name="customername" /><br /><br />
-            <input class="btn btn-primary" id="Submit1" type="submit" value="Submit" />
-            <input class="btn" id="Reset1" type="submit" value="Reset" />
+            <input id="CustomerName" type="text" name="customerName" /><br /><br />
+            <input class="btn btn-primary" id="Submit" type="submit" value="Submit" name="formButton"/>
+            <input class="btn" id="Reset" type="submit" value="Reset" name="formButton"/>
         </div>
         <div class="col-md-9">
             <label>Choose your menu items:</label><br />
-            <input id="Checkbox1" type="checkbox" value="" /> Steak<br />
-            <input id="Checkbox1" type="checkbox" /> Seafood<br />
-            <input id="Checkbox1" type="checkbox" /> Vegetables
+            <input id="Checkbox1" type="checkbox" name="menuGroup" value="Steak" /> Steak<br />
+            <input id="Checkbox1" type="checkbox" name="menuGroup" value="Seafood" /> Seafood<br />
+            <input id="Checkbox1" type="checkbox" name="menuGroup" value="Vegetables" /> Vegetables
         </div>
     </div>
     <div class="row">

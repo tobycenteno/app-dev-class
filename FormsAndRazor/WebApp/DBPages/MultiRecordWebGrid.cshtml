@@ -1,0 +1,52 @@
+﻿@{
+    Page.Title = "M/R WebGrid";
+    Layout = "~/_LayoutMenu.cshtml";
+
+    //in this demonstration, a datavalue is expected
+    //from someother webpage
+    //to access the datavalue from the sending page
+    //use Request.QueryString["labelid"]
+    //if a value does exist on the url by the specified labelid
+    //   that data will be retreived as a string
+    //if the labelid does not exist on the url, you get a null
+    var categoryid = Request.QueryString["cid"];
+
+    //if not value exists, then I will send the user to 
+    //the proper search page
+    if (string.IsNullOrEmpty(categoryid))
+    {
+        Response.Redirect("MultiRecordQuery.cshtml");
+    }
+
+    var db = Database.Open("NWDB");
+    var scalarcommand = "SELECT CategoryName "
+                        + "FROM Categories "
+                        + "WHERE CategoryID = @0";
+    var categoryname = db.QueryValue(scalarcommand, categoryid);
+
+    var querycommand = "SELECT ProductID, ProductName, UnitPrice, UnitsInStock, Discontinued "
+                    + "FROM Products "
+                    + "WHERE CategoryID = @0 "
+                    + "ORDER BY 2";
+    var results = db.Query(querycommand, categoryid);
+
+    //create an instance of WebGrid
+    //notice the collection is passed at the time of instantiation
+    var gridinstance = new WebGrid(results);
+}
+@section banner{
+    <span style="font-size:xx-large"><strong>Multi-Record WebGrid</strong></span>
+}
+
+
+
+<div>
+    <div class="row">
+        <div class="col-sm-offset-3">
+            <span style="font-size:x-large"><strong>
+                Products for @categoryname</strong></span>
+            <!--Display the WebGrid instance in its default display-->
+            @gridinstance.GetHtml();
+        </div>
+    </div>
+</div>

@@ -1,0 +1,70 @@
+﻿@{
+    //processing of this file is from the physical start of the file
+    //to the physcial end of the file
+
+    // this is a comment in c#
+    Page.Title = "Razor Forms";
+    //Layout = "~/_Layout.cshtml";
+    Layout = "~/_LayoutMenu.cshtml";
+
+    //capture the value that was entered into the textbox
+    //to do this use Request.Form["controlname"]
+    //the value return from the textbox is a string
+    //if the controlname does NOT exist, you will be given a null as the value
+    var leftside = Request.Form["LeftSide"];
+    var rightside = Request.Form["RightSide"];
+    //to determine which submit button was press, gather
+    //  the value from the button control that was pressed
+    //both submit buttons have the same value for their name= attribute
+    var buttonpressed = Request.Form["formButton"];
+
+}
+@section head{
+<link href="~/Content/myStyleSheet.css" rel="stylesheet" />
+     }
+@section banner{
+    <span style="font-size:xx-large"><strong>TextBoxes</strong></span>
+}
+<div>
+    <!--The given div area is the page body RenderBody-->
+
+    @if (IsPost)
+    {
+        //IsPost is the flag that indicates if the page is a post back
+        if (buttonpressed.Equals("left"))
+        {
+            <p>You pressed the Left Side button which has the following value entered &gt;@leftside &lt;</p>
+        }
+        else
+        {
+            <p>You pressed the Right Side button which has the following value entered &gt;@rightside &lt;</p>
+        }
+
+    }
+    <form id="theForm" action="" method="post">
+       <div class="row">
+           <div class="col-sm-6">
+               <label id="forLeftSide">Left Data:</label>&nbsp;&nbsp;
+               <input type="text" name="LeftSide" id="LeftSideId"
+                      value="@leftside" placeholder="enter some data" />&nbsp;&nbsp;
+               <button type="submit" name="formButton" value="left"
+                       class="btn btn-primary">
+                   Press Left
+               </button>
+           </div>
+           <div class="col-sm-6">
+               <label id="forRightSide">Right Data:</label>&nbsp;&nbsp;
+               <input type="number" name="RightSide" id="RightSideId"
+                      value="@rightside" placeholder="enter some data" />&nbsp;&nbsp;
+               <button type="submit" name="formButton" value="right"
+                       class="btn btn-primary">
+                   Press Right
+               </button>
+           </div>
+       </div>
+    </form>
+</div>
+
+@section footer{
+    &copy; CPSC1517, Nait  @DateTime.Today.ToLongDateString().}
+

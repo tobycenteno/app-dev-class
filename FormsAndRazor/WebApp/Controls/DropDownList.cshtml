@@ -1,0 +1,66 @@
+﻿@{
+    // this is a comment in c#
+    Page.Title = "Razor Forms";
+    //Layout = "~/_Layout.cshtml";
+    Layout = "~/_LayoutMenu.cshtml";
+    var choice = Request.Form["ControlSample"];
+}
+@section head{
+<link href="~/Content/myStyleSheet.css" rel="stylesheet" />
+     }
+@section banner{
+    <span style="font-size:xx-large"><strong>Drop Down List (Select tag)</strong></span>
+}
+<div>
+    @if (IsPost)
+    {
+        switch (choice.ToUpper())
+        {
+            case "TEXTBOXES":
+                {
+                    Response.Redirect("TextBoxes.cshtml");
+                    break;
+                }
+            case "RADIOBUTTONS":
+                {
+                    Response.Redirect("RadioButtons.cshtml");
+                    break;
+                }
+            case "CHECKBOXES":
+                {
+                    Response.Redirect("CheckBoxes.cshtml");
+                    break;
+                }
+            default:
+                {
+                    <p><span style="color:firebrick">Make a selection from the Control Sample list.</span></p>
+                    break;
+                }
+        }
+    }
+ <form id="theForm" action="" method="post">
+     <div class="row">
+         <div class="col-lg-offset-1">
+             <label id="forControlSample">Select the sample control to view</label><br/>
+             <!--the Select tag is used in html to create the dropdownlist
+                 each item in the ddl is specified using an option tag
+                 to set an item as the choosen item, use the parameter selected-->
+             <select id="ControlSampleID" name="ControlSample">
+                 <!--the first row in a ddl can commonly be a prompt line (optional)-->
+                 <option value="">select ...</option>
+                 <!--create value selections to process
+                     value= supplies the value to be retrieve with .Form[]
+                     the text between the open and close tag is the display text to the user-->
+                 <option value="TextBoxes">TextBoxes</option>
+                 <option value="RadioButtons">RadioButtons</option>
+                 <option value="CheckBoxes">CheckBoxes</option>
+             </select><br/><br/>
+             <button type="submit" name="formButton" value="submit"
+                     class="btn btn-primary">Go To ...</button>
+         </div>
+     </div>
+ </form>
+</div>
+
+@section footer{
+        &copy; CPSC1517, Nait  @DateTime.Today.ToLongDateString().}

@@ -1,0 +1,86 @@
+﻿@{
+    Page.Title = "M/R Query";
+    Layout = "~/_LayoutMenu.cshtml";
+
+    var db = Database.Open("NWDB");
+    var querycommand = "SELECT CategoryID, CategoryName "
+                        + "FROM Categories "
+                        + "ORDER BY CategoryName";
+    var ddlResults = db.Query(querycommand);
+
+    //retrieve the select value
+    var categorylist = Request.Form["CategoryList"];
+    if (categorylist == null)
+    {
+        categorylist = "0";
+    }
+}
+@section banner{
+    <span style="font-size:xx-large"><strong>Multi-Record Query</strong></span>
+}
+
+
+<div>
+    @if (IsPost)
+    {
+        //user did not select a category, ddl still sitting on prompt line
+        if (categorylist.Equals("0"))
+        {
+            <p><span style="color:firebrick">Make a category selection.</span></p>
+        }
+        else
+        {
+            //delayed the access to the database for lookin up the
+            //   Products of the selected category
+            var searchquery = "SELECT ProductName "
+                            + "FROM Products "
+                            + "WHERE CategoryID = @0";
+            var searchresults = db.Query(searchquery, categorylist);
+            //test the results of the lookup
+            //if no products exists for the category .Count() == 0
+            if (searchresults.Count() == 0)
+            {
+                <p><span style="color:firebrick">No products for the selected category.</span></p>
+            }
+            else
+            {
+                //there are records to be displayed
+                //these records could be displayed on this page
+                //    however, this demonstration is including
+                //    page to page data transfer of values
+                //to call another page we will use Response.Redirect("page[?datavalue&datavalue&...])
+                //   where page is the file name  xxxx.cshtml
+                //   ? indicates that datavalue(s) follow
+                //   datavalue consists of labelid=value
+                //   multiple datavalues are separated by the & sign
+                Response.Redirect("MultiRecordWebGrid.cshtml?cid=" + categorylist);
+            }
+        }
+    }
+    <form id="theForm" action="" method="post">
+        <div class="row">
+            <div class="col-sm-offset-3">
+                <label id="forCategoryList">Select a Category</label><br/>
+                <!--dynamically build a drop down list using
+                    a collection of records from the database
+                    the size of the collection is unknown
+                    the drop down list will have a prompt line-->
+                <select name="CategoryList">
+                    <option value="0">select ...</option>
+                    @foreach(var item in ddlResults)
+                    {
+                        //loop through the collection of records in the ddlResults
+                        //create a line in the ddl for each item (category) in ddlResults
+                        //referencing of the data items on each row
+                        //    is done using either the [index] technique
+                        //    or using the properties (.ColumnTitleName)
+                        //    to point to the specific data
+                        <option value="@item[0]">@item.CategoryName</option>
+                    }
+                </select><br/><br/>
+                <button type="submit" name="formButton" value="submit"
+                        class="btn btn-primary">Search</button>
+            </div>
+        </div>
+    </form>
+</div>

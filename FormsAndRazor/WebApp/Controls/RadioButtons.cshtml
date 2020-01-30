@@ -1,0 +1,72 @@
+﻿@{
+    // this is a comment in c#
+    Page.Title = "Razor Forms";
+    //Layout = "~/_Layout.cshtml";
+    Layout = "~/_LayoutMenu.cshtml";
+
+    var languagechoice = Request.Form["LanguageGroup"];
+    var scriptchoice = Request.Form["ScriptGroup"];
+
+}
+@section head{
+<link href="~/Content/myStyleSheet.css" rel="stylesheet" />
+     }
+@section banner{
+    <span style="font-size:xx-large"><strong>RadioButtons</strong></span>
+}
+<div>
+    @if(IsPost)
+    {
+        if (languagechoice.IsEmpty() || scriptchoice.IsEmpty())
+        {
+            <p><span style="color:firebrick">make a selection from both coding choices.</span></p>
+        }
+        else
+        {
+            if (languagechoice.Equals("C#"))
+            {
+                <p>You will greatly enjoy CPCS1517 as we use C#.</p>
+            }
+            else
+            {
+                <p>Too bad. Unfortunately we do not use @languagechoice in CPSC1517</p>
+            }
+            if (scriptchoice.Equals("Razor"))
+            {
+                <p>You will greatly enjoy CPCS1517 as we use Razor.</p>
+            }
+            else
+            {
+                <p>Too bad. Unfortunately we do not use @scriptchoice in CPSC1517</p>
+            }
+        }
+    }
+   <form id="theForm" action="" method="post">
+       <div class="row">
+           <div class="col-sm-offset-1">
+               <label id="forLanguageGroup">Select your favorite language:</label><br/>
+               <input type="radio" name="LanguageGroup" value="C#" />C#<br/>
+               <input type="radio" name="LanguageGroup" value="VisualBasic" />VB<br />
+               <input type="radio" name="LanguageGroup" value="Cobol" />Cobol<br />
+               <input type="radio" name="LanguageGroup" value="Fortran" />Fortran<br />
+               <input type="radio" name="LanguageGroup" value="Pascal" />Pascal<br /><br/>
+
+               <label id="forScriptGroup">Select your favorite script code:</label><br />
+               <input type="radio" name="ScriptGroup" value="JavaScript" />JavaScript<br />
+               <input type="radio" name="ScriptGroup" value="Razor" />Razor<br />
+               <input type="radio" name="ScriptGroup" value="Php" />Php<br /><br/>
+           </div>
+       </div>
+       <div class="row">
+           <div class="col-sm-offset-1">
+               <button type="submit" name="formButton" value="submit"
+                       class="btn btn-primary">
+                   Submit
+               </button>
+           </div>
+       </div>
+   </form>
+</div>
+
+@section footer{
+    &copy; CPSC1517, Nait  @DateTime.Today.ToLongDateString().}

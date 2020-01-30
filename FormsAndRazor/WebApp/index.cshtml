@@ -1,0 +1,19 @@
+﻿@{
+    // this is a comment in c#
+    Page.Title = "Razor Forms";
+    //Layout = "~/_Layout.cshtml";
+    Layout = "~/_LayoutMenu.cshtml";
+}
+@section head{
+<link href="~/Content/myStyleSheet.css" rel="stylesheet" />
+     }
+@section banner{
+    <span style="font-size:xx-large"><strong>Razor Sample</strong></span>
+}
+<div>
+    <!-- this is a comment in html-->
+    Hello World
+</div>
+
+@section footer{
+    &copy; CPSC1517, Nait  @DateTime.Today.ToLongDateString().}

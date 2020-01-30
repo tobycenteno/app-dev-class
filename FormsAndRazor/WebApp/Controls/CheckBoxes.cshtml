@@ -1,0 +1,76 @@
+﻿@{
+    // this is a comment in c#
+    Page.Title = "Razor Forms";
+    //Layout = "~/_Layout.cshtml";
+    Layout = "~/_LayoutMenu.cshtml";
+}
+@section head{
+<link href="~/Content/myStyleSheet.css" rel="stylesheet" />
+     }
+@section banner{
+    <span style="font-size:xx-large"><strong>CheckBoxes</strong></span>
+}
+<div>
+    @if (IsPost)
+    {
+        //delay retreiving my data value from the form until
+        //I know that I am in a post back
+
+        //However: I must remember the scope of variables rule in C#
+        //the variable created within this coding block will be destroyed
+        //when I logically leave the block
+        var choice = Request.Form["GameGroup"];
+        if (choice.IsEmpty())
+        {
+            <p><span style="color:firebrick">Make at least one selection from the platforms.</span></p>
+        }
+        else
+        {
+            //set up the delimiter as a character for use in dividing
+            //the set of value(s) that will be returned from the form's
+            //checkboxes
+            //Characters are defined using single quotes
+            char[] delimiter = { ',' };
+
+            //use the .Split(delimiter) method to split up the
+            //returned string
+            
+            //Returns a string array that contains the substrings
+            //in this instance that are delimited by an element of a specified
+            //string or unicode character array.
+
+            //the foreach loop allows us to traverse this array of
+            //substrings which will be an unknow number of strings
+            <p>
+                I see you like to use the following platforms:
+                <ul>
+                    @foreach(var platform in choice.Split(delimiter))
+                    {
+                        <li>@platform</li>
+                    }
+                </ul>
+            </p>
+        }
+    }
+    <form id="theForm" action="" method="post">
+        <div class="row">
+            <div class="col-sm-offset-1">
+                <label id="forGameGroup">Select your favorite gaming platform:</label><br />
+                <input type="checkbox" name="GameGroup" value="PS4" />PS4<br />
+                <input type="checkbox" name="GameGroup" value="PC" />PC<br />
+                <input type="checkbox" name="GameGroup" value="XBox 360" />XBox 360<br />
+                <input type="checkbox" name="GameGroup" value="Nintendo DS" />Nintendo DS<br />
+                <input type="checkbox" name="GameGroup" value="CellPhone" />Cellphone<br />
+                <input type="checkbox" name="GameGroup" value="IPad" />Ipad<br />
+                <input type="checkbox" name="GameGroup" value="WII" />WII<br /><br />
+                <button type="submit" name="formButton" value="submit"
+                        class="btn btn-primary">
+                    Submit
+                </button>
+            </div>
+        </div>
+    </form>
+</div>
+
+@section footer{
+    &copy; CPSC1517, Nait  @DateTime.Today.ToLongDateString().}

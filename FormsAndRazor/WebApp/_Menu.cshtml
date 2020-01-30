@@ -1,0 +1,39 @@
+﻿<!--this will be the menu area-->
+<div class="navbar navbar-default navbar-fixed-top">
+    <!--a brand on the menu. this can be given an
+        anchor tag of href="~/index.cshtml" to go
+        to your home page-->
+    <div class="navbar-header">
+        <a class="navbar-brand" style="font-size:x-large"><strong>CPSC1517 Razor</strong></a>
+    </div>
+    <!--this area will hold the menu root items-->
+    <ul class="nav navbar-nav">
+        <li><a href="@Href("~/index.cshtml")">Home</a></li>
+        <!--this will be a drop down menu-->
+        <li class="dropdown">
+            <!--this is the root item for the drop down-->
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Controls
+                <b class="caret"></b>
+            </a>
+            <!--this will be the actual submenu-->
+            <ul class="dropdown-menu">
+                <li><a href="@Href("~/Controls/TextBoxes.cshtml")">TextBoxes</a></li>
+                <li><a href="@Href("~/Controls/RadioButtons.cshtml")">Radio Buttons</a></li>
+                <li><a href="@Href("~/Controls/CheckBoxes.cshtml")">CheckBoxes</a></li>
+                <li><a href="@Href("~/Controls/DropDownList.cshtml")">Drop Down List</a></li>
+            </ul>
+        </li>
+        <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                Database
+                <b class="caret"></b>
+            </a>
+            <ul class="dropdown-menu">
+                <li><a href="@Href("~/DBPages/DBSingleQuery.cshtml")">PKey Query</a></li>
+                <li><a href="@Href("~/DBPages/MultiRecordQuery.cshtml")">M/R Query</a></li>
+            </ul>
+        </li>
+        <li><a href="@Href("~/About.cshtml")">About</a></li>
+    </ul>
+</div>

@@ -1,0 +1,20 @@
+﻿@{
+    // this is a comment in c#
+    Page.Title = "Razor Forms";
+    //Layout = "~/_Layout.cshtml";
+    Layout = "~/_LayoutMenu.cshtml";
+}
+@section head{
+<link href="~/Content/myStyleSheet.css" rel="stylesheet" />
+     }
+@section banner{
+    <span style="font-size:xx-large"><strong>About</strong></span>
+}
+<div>
+   This is a Razor Solution demonstrating the basics of html forms. The
+    data managed by this solution will preform CRUD operations against a
+    database.
+</div>
+
+@section footer{
+    &copy; CPSC1517, Nait  @DateTime.Today.ToLongDateString().}

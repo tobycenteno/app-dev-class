@@ -1,0 +1,97 @@
+﻿@{
+    Page.Title = "PKey Query";
+    Layout = "~/_LayoutMenu.cshtml";
+
+    var formbutton = Request.Form["formButton"];
+    var searcharg = Request.Form["SearchArg"];
+
+    //if my searcharg value is null, i must change it to
+    //a datatype valid value, that would not be found by
+    // my sql query
+    if (string.IsNullOrEmpty(searcharg))
+    {
+        searcharg = "0";
+    }
+    //lookup of a record on the database
+    //this lookup will return a single record because
+    //   it is a primary key field lookup
+    //
+    //connect to the connection string for the desired database
+    var db = Database.Open("NWDB");
+
+    //create the sql query command
+    //within your query command you can use placeholders
+    //  to temporary indicate where the require value would be placed
+    //during execution of the statement, placeholders are physically
+    //  replaced by supplied values
+    //placeholders are indexed and are used in sequencial order
+    //remember, if you code your query over multiple physical lines
+    //   include necessary blank spaces at the end of each physical line
+    var querycommand = "SELECT RegionID, RegionDescription "
+                    + "FROM Region "
+                    + "WHERE RegionID = @0";
+
+    //execute the sql query command
+    var queryresults = db.QuerySingle(querycommand, searcharg);
+
+    var regionid = "";
+    var regiondescription = "";
+}
+@section banner{
+    <span style="font-size:xx-large"><strong>Single PKey Record Query</strong></span>
+}
+<div>
+    @if(IsPost)
+    {
+        if (formbutton.Equals("reset"))
+        {
+            searcharg = "";
+            regionid = "";
+            regiondescription = "";
+        }
+        else
+        {
+            //to test on QuerySingle(), use == null
+            //if your results are null then nothing was found
+            if (queryresults == null)
+            {
+                <p><span style="color:firebrick">No region found for the id of: @searcharg</span></p>
+            }
+            else
+            {
+                //there are two ways to access your data on the
+                //resulting data collection
+
+                //a) use an [index] to indicate the column on the
+                //   sql result report
+                regionid = queryresults[0].ToString();
+
+                //b) use the sql report column title name
+                regiondescription = queryresults.RegionDescription;
+            }
+        }
+    }
+    <form id="theForm" action="" method="post">
+        <div class="row">
+            <div class="col-sm-3">
+                <label id="forSearchArg">Enter a Region ID:</label>&nbsp;&nbsp;
+                <input type="number" name="SearchArg" id="SearchArgID"
+                       placeholder="Enter a region id"
+                       step="1" min="1"
+                       value="@searcharg" /><br/><br/>
+                <button type="submit" name="formButton" value="submit"
+                        class="btn btn-primary">Search</button>&nbsp;&nbsp;
+                <button type="submit" name="formButton" value="reset"
+                        class="btn ">Clear</button>
+            </div>
+            <div class="col-sm-3">
+                <label id="forRegionID">Region ID:</label>&nbsp;&nbsp;
+                <input type="text" name="RegionID" value="@regionid"
+                       readonly /><br />
+                <label id="forRegionDescription">Description:</label>&nbsp;&nbsp;
+                <input type="text" name="RegionDescription" value="@regiondescription"
+                       readonly />
+            </div>
+        </div>
+    </form>
+</div>

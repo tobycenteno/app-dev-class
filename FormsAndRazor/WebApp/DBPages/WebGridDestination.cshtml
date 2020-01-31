@@ -1,0 +1,21 @@
+﻿@{
+    Page.Title = "WebGrid View";
+    Layout = "~/_LayoutMenu.cshtml";
+}
+@section banner{
+    <span style="font-size:xx-large"><strong>Database: Value from WebGrid</strong></span>
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title></title>
+</head>
+<body>
+    <div>
+        <h4>You passed the value @Request.QueryString["pid"]</h4>
+    </div>
+</body>
+</html>

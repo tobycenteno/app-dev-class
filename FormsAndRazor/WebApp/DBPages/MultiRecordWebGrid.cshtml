@@ -32,7 +32,7 @@
 
     //create an instance of WebGrid
     //notice the collection is passed at the time of instantiation
-    var gridinstance = new WebGrid(results);
+    var gridinstance = new WebGrid(results, rowsPerPage:5);
 }
 @section banner{
     <span style="font-size:xx-large"><strong>Multi-Record WebGrid</strong></span>
@@ -42,11 +42,31 @@
 
 <div>
     <div class="row">
-        <div class="col-sm-offset-3">
+        <div class="container">
             <span style="font-size:x-large"><strong>
                 Products for @categoryname</strong></span>
             <!--Display the WebGrid instance in its default display-->
-            @gridinstance.GetHtml();
+            @gridinstance.GetHtml(
+            tableStyle: "table table-bordered table-striped table-hover",
+            mode: WebGridPagerModes.All,
+            firstText: "Start",
+            lastText: "End",
+            columns:    gridinstance.Columns(
+                        gridinstance.Column(columnName: "ProductID", header: "ID"),
+                        gridinstance.Column(columnName: "ProductName", header: "Product"),
+                        gridinstance.Column(columnName: "UnitsInStock", header: "Pkg"),
+                        gridinstance.Column(columnName: "UnitPrice", header: "$", format: (item) => item.UnitPrice.ToString("0.00")),
+                        gridinstance.Column(columnName: "Discontinued", header: "Disc.",
+                        format: @<input name="Discontinued" type="checkbox"
+                                        value="@item.Discontinued" @(item.Discontinued == true ? "Checked" : null)
+                                        disabled="disabled" />),
+                        gridinstance.Column(header: "",
+                            format:@<text>
+                            <a href="~/DBPages/WebGridDestination.cshtml?pid=@item.ProductID"
+                               onclick="return confirm('Are you sure you wish to view the product details of @item.ProductName?')">
+                                View</a></text>)
+                        )
+            )
         </div>
     </div>
 </div>

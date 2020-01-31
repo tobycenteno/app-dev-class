@@ -1,0 +1,73 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Exercise02";
+
+    var artistName = Request.QueryString["artist"];
+    var partialString = "%" + artistName + "%";
+
+    if(string.IsNullOrEmpty(artistName))
+    {
+        Response.Redirect("Exercise02_A.cshtml");
+    } 
+
+    var db = Database.Open("CHINOOKDB");
+    var querycommand = "SELECT ArtistId, Name "
+                    + "FROM Artists "
+                    + "WHERE Name like @0 "
+                    + "ORDER BY Name";
+
+    var queryResults = db.Query(querycommand, partialString);
+
+    var artistList = Request.Form["ArtistList"];
+    if (artistList == null)
+    {
+        artistList = "0";
+    }
+}
+
+@section pagetitle{
+    <span style="font-size:xx-large"><strong>Exercise02: Database Query</strong></span>
+}
+<div>
+    @if (IsPost)
+    {
+        if (artistList.Equals("0"))
+        {
+            <div class="alert alert-danger" role="alert">
+                Please select an artist.
+            </div>
+        }
+        else
+        {
+            Response.Redirect("Exercise02_C.cshtml?aid=" + artistList);
+        }
+    }
+    <form action="" method="post" id="EX02">
+        <div class="row">
+            <div class="col-md-3">
+                <label id="forArtistList">Select an Artist:</label><br />
+                <!--dynamically build a drop down list using
+        a collection of records from the database
+        the size of the collection is unknown
+        the drop down list will have a prompt line-->
+                <select name="ArtistList">
+                    <option value="0">select ...</option>
+                    @foreach (var item in queryResults)
+                    {
+                        //loop through the collection of records in the ddlResults
+                        //create a line in the ddl for each item (category) in ddlResults
+                        //referencing of the data items on each row
+                        //    is done using either the [index] technique
+                        //    or using the properties (.ColumnTitleName)
+                        //    to point to the specific data
+                        <option value="@item.ArtistId">@item.Name</option>
+                    }
+                </select><br /><br />
+                <input class="btn btn-primary" id="Submit" type="submit" value="Fetch Album" name="fetchAlbumButton" />
+            </div>
+        </div>
+    </form>
+</div>
+
+
+

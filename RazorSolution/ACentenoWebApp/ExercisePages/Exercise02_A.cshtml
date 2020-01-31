@@ -1,0 +1,58 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Exercise02";
+
+    var artistName = Request.Form["artistName"];
+    var fetchButton = Request.Form["fetchButton"];
+
+    var partialString = "%" + artistName + "%";
+
+    var db = Database.Open("CHINOOKDB");
+    
+}
+
+@section pagetitle{
+    <span style="font-size:xx-large"><strong>Exercise02: Database Query</strong></span>
+}
+<div>
+    @if (IsPost)
+    {
+         if (string.IsNullOrEmpty(artistName))
+         {
+                <div class="alert alert-danger" role="alert">
+                    Please enter an artist name.
+                </div>
+         }
+         else
+         {
+
+            var querycommand = "SELECT ArtistId "
+                    + "FROM Artists "
+                    + "WHERE Name like @0";
+            var queryresults = db.Query(querycommand, partialString);
+
+             if (queryresults.Count() == 0)
+             {
+                <div class="alert alert-danger" role="alert">
+                    No artist/s found in the database.
+                </div>
+             }
+             else
+             {
+                 Response.Redirect("Exercise02_B.cshtml?artist=" + artistName);
+             }
+         }
+    }
+    <form action="" method="post" id="EX02">
+        <div class="row">
+            <div class="col-md-3">
+                <p>Artist Name:</p>
+                <input id="ArtistName" type="text" name="artistName" /><br /><br />
+                <input class="btn btn-primary" id="Submit" type="submit" value="Fetch Artist" name="fetchButton" />
+            </div>
+        </div>
+    </form>
+</div>
+
+
+

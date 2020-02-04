@@ -5,24 +5,28 @@
     var artistName = Request.QueryString["artist"];
     var partialString = "%" + artistName + "%";
 
+    // if no name was received from the previous page
     if(string.IsNullOrEmpty(artistName))
     {
         Response.Redirect("Exercise02_A.cshtml");
-    } 
-
+    }
+    
+    //if a name was received from the previous page
     var db = Database.Open("CHINOOKDB");
+
     var querycommand = "SELECT ArtistId, Name "
                     + "FROM Artists "
                     + "WHERE Name like @0 "
                     + "ORDER BY Name";
 
-    var queryResults = db.Query(querycommand, partialString);
+     var queryResults = db.Query(querycommand, partialString);
 
-    var artistList = Request.Form["ArtistList"];
-    if (artistList == null)
-    {
+     var artistList = Request.Form["ArtistList"];
+
+     if (artistList == null)
+     {
         artistList = "0";
-    }
+     }
 }
 
 @section pagetitle{
@@ -46,20 +50,10 @@
         <div class="row">
             <div class="col-md-3">
                 <label id="forArtistList">Select an Artist:</label><br />
-                <!--dynamically build a drop down list using
-        a collection of records from the database
-        the size of the collection is unknown
-        the drop down list will have a prompt line-->
                 <select name="ArtistList">
                     <option value="0">select ...</option>
                     @foreach (var item in queryResults)
                     {
-                        //loop through the collection of records in the ddlResults
-                        //create a line in the ddl for each item (category) in ddlResults
-                        //referencing of the data items on each row
-                        //    is done using either the [index] technique
-                        //    or using the properties (.ColumnTitleName)
-                        //    to point to the specific data
                         <option value="@item.ArtistId">@item.Name</option>
                     }
                 </select><br /><br />

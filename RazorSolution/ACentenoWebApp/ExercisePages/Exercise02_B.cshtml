@@ -6,11 +6,11 @@
     var partialString = "%" + artistName + "%";
 
     // if no name was received from the previous page
-    if(string.IsNullOrEmpty(artistName))
+    if (string.IsNullOrEmpty(artistName))
     {
         Response.Redirect("Exercise02_A.cshtml");
     }
-    
+
     //if a name was received from the previous page
     var db = Database.Open("CHINOOKDB");
 
@@ -19,14 +19,22 @@
                     + "WHERE Name like @0 "
                     + "ORDER BY Name";
 
-     var queryResults = db.Query(querycommand, partialString);
+    var queryResults = db.Query(querycommand, partialString);
 
-     var artistList = Request.Form["ArtistList"];
+    // if there is no result from the query
+    if (queryResults.Count() == 0)
+    {
+        <div class="alert alert-danger" role="alert">
+            No artist/s found in the database.
+        </div>
+    }
 
-     if (artistList == null)
-     {
+    var artistList = Request.Form["ArtistList"];
+
+    if (artistList == null)
+    {
         artistList = "0";
-     }
+    }
 }
 
 @section pagetitle{
@@ -35,17 +43,24 @@
 <div>
     @if (IsPost)
     {
-        if (artistList.Equals("0"))
+        // check if there are artists in the dropdown list
+        if (queryResults.Count() == 0)
+        {
+            <div class="alert alert-danger" role="alert">
+                No artist/s found in the database.
+            </div>
+        }
+        // check if there is an artist selected from the dropdown
+        else if (artistList.Equals("0"))
         {
             <div class="alert alert-danger" role="alert">
                 Please select an artist.
             </div>
-        }
-        else
+        } else
         {
             Response.Redirect("Exercise02_C.cshtml?aid=" + artistList);
         }
-    }
+     }
     <form action="" method="post" id="EX02">
         <div class="row">
             <div class="col-md-3">

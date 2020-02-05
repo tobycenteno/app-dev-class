@@ -3,6 +3,7 @@
     Layout = "~/_Layout.cshtml";
 
     var artistId = Request.QueryString["aid"];
+    WebGrid gridInstance = null;
 
     if (string.IsNullOrEmpty(artistId))
     {
@@ -22,8 +23,6 @@
                             + "ORDER BY Title";
 
     var albumList = db.Query(albumListCommand, artistId);
-
-    var gridInstance = new WebGrid(albumList, rowsPerPage: 10);
 }
 @section pagetitle{
     <span style="font-size:xx-large"><strong>Exercise02: Database Query</strong></span>
@@ -40,13 +39,24 @@
         <div class="container">
             <span style="font-size:x-large">
                 <strong>
-                   @artistName
+                    Albums of @artistName
                 </strong>
             </span>
-            <!--Display the WebGrid instance in its default display-->
-            @gridInstance.GetHtml(
-            tableStyle: "table table-bordered table-striped table-hover",
-            mode: WebGridPagerModes.All,
+            @{
+                // if there is no result from the query
+                if (albumList.Count() == 0)
+                {
+                    <div class="alert alert-danger" role="alert">
+                        No album/s found in the database.
+                    </div>
+                }
+                else //if there are results
+                {
+                    gridInstance = new WebGrid(albumList, rowsPerPage: 10);
+
+                    gridInstance.GetHtml(
+                    tableStyle: "table table-bordered table-striped table-hover",
+                    mode: WebGridPagerModes.All,
             firstText: "Start",
             lastText: "End",
             columns: gridInstance.Columns(
@@ -54,8 +64,10 @@
                         gridInstance.Column(columnName: "Title", header: "Title"),
                         gridInstance.Column(columnName: "ReleaseYear", header: "Release Year"),
                         gridInstance.Column(columnName: "ReleaseLabel", header: "Release Label")
-             )
- )
+                    )
+                    );
+                }
+            }
         </div>
     </div>
 </body>

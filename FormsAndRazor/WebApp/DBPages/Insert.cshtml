@@ -13,6 +13,20 @@
     var unitsonorder = "";
     var reorderlevel = "";
     var discontinued = "";
+
+    var db = Database.Open("NWDB");
+
+    var categoryquery = "SELECT CategoryID, CategoryName "
+                        + "FROM Categories "
+                        + "ORDER BY 2";
+
+    var categorylist = db.Query(categoryquery);
+
+    var supplierquery = "SELECT SupplierID, CompanyName "
+                        + "FROM Suppliers "
+                        + "ORDER BY 2";
+
+    var supplierlist = db.Query(supplierquery);
 }
 
 @section banner{
@@ -43,14 +57,14 @@
 
         try
         {
-            var db = Database.Open("NWDB");
+            var db1 = Database.Open("NWDB");
 
             var insertcommand = "INSERT INTO Products (ProductName, SupplierID, "
                             + "CategoryID, QuantityPerUnit, UnitPrice, UnitsInStock, "
                             + "UnitsOnOrder, ReorderLevel, Discontinued) "
                             + "VALUES(@0, @1, @2, @3, @4, @5, @6, @7, @8)";
 
-            db.Execute(insertcommand, productname,
+            db1.Execute(insertcommand, productname,
                  string.IsNullOrEmpty(selectedsupplier) ? null : selectedsupplier,
                  string.IsNullOrEmpty(selectedcategory) ? null : selectedcategory,
                  string.IsNullOrEmpty(quantityperunit) ? null : quantityperunit,
@@ -93,8 +107,36 @@
             </div>
             <div class="col-sm-6">
                 <input type="text" name="ProductName" id="ProductName" value="@productname" placeholder="product name" /><br />
-                <input type="text" name="Supplier" id="Supplier" value="@selectedsupplier" placeholder="supplier id" /><br />
-                <input type="text" name="Category" id="Category" value="@selectedcategory" placeholder="category id" /><br />
+                <!--<input type="text" name="Supplier" id="Supplier" value="@selectedsupplier" placeholder="supplier id" /><br />-->
+                <select id="Supplier" name="Supplier">
+                    <option value="0">select...</option>
+                    @foreach (var item in supplierlist)
+                    {
+                        if (selectedsupplier.Equals(item[0].ToString()))
+                        {
+                            <option value="@item[0]" selected>@item.CompanyName</option>
+                        }
+                        else
+                        {
+                            <option value="@item[0]">@item.CompanyName</option>
+                        }
+                    }
+                </select><br />
+                <!--<input type="text" name="Category" id="Category" value="@selectedcategory" placeholder="category id" /><br />-->
+                <select id="Category" name="Category">
+                    <option value="0">select...</option>
+                    @foreach (var item in categorylist)
+                    {
+                        if (selectedcategory.Equals(item[0].ToString()))
+                        {
+                            <option value="@item[0]" selected>@item.CategoryName</option>
+                        }
+                        else
+                        {
+                            <option value="@item[0]">@item.CategoryName</option>
+                        }
+                    }
+                </select><br />
                 <input type="text" name="QuantityPerUnit" id="QuantityPerUnit" value="@quantityperunit" /><br />
                 <input type="text" name="UnitPrice" id="UnitPrice" value="@unitprice" /><br />
                 <input type="text" name="UnitsInStock" id="UnitsInStock" value="@unitsinstock" title="Quantity currently in inventory." /><br />
@@ -103,17 +145,17 @@
                 <input type="checkbox" name="Discontinued" id="Discontinued" title="Product is discontinued if checked."
                        @(string.IsNullOrEmpty(discontinued) ? "" : "checked") /><br />
             </div>
-            <div class="row">
-                <div class="col-sm-11 text-center">
-                    <button type="submit" name="FormButton" value="submit" class="btn btn-primary" style="width:90px">
-                        Add
-                    </button>
-                    &nbsp;&nbsp;
-                    <button type="submit" name="FormButton" value="reset" class="btn" style="width:90px">
-                        Clear
-                    </button>
+                <div class="row">
+                    <div class="col-sm-11 text-center">
+                        <button type="submit" name="FormButton" value="submit" class="btn btn-primary" style="width:90px">
+                            Add
+                        </button>
+                        &nbsp;&nbsp;
+                        <button type="submit" name="FormButton" value="reset" class="btn" style="width:90px">
+                            Clear
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
-    </form>
-</div>
+        </form>
+    </div>

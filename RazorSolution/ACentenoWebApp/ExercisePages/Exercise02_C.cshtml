@@ -3,7 +3,6 @@
     Layout = "~/_Layout.cshtml";
 
     var artistId = Request.QueryString["aid"];
-    WebGrid gridInstance = null;
 
     if (string.IsNullOrEmpty(artistId))
     {
@@ -23,6 +22,8 @@
                             + "ORDER BY Title";
 
     var albumList = db.Query(albumListCommand, artistId);
+
+    var gridInstance = new WebGrid(albumList, rowsPerPage: 10);
 }
 @section pagetitle{
     <span style="font-size:xx-large"><strong>Exercise02: Database Query</strong></span>
@@ -51,15 +52,13 @@
                     </div>
                 }
                 else //if there are results
-                {
-                    gridInstance = new WebGrid(albumList, rowsPerPage: 10);
-
-                    gridInstance.GetHtml(
+                {   
+                    @gridInstance.GetHtml(
                     tableStyle: "table table-bordered table-striped table-hover",
                     mode: WebGridPagerModes.All,
-            firstText: "Start",
-            lastText: "End",
-            columns: gridInstance.Columns(
+                    firstText: "Start",
+                    lastText: "End",
+                    columns: gridInstance.Columns(
                         gridInstance.Column(columnName: "AlbumID", header: "ID"),
                         gridInstance.Column(columnName: "Title", header: "Title"),
                         gridInstance.Column(columnName: "ReleaseYear", header: "Release Year"),

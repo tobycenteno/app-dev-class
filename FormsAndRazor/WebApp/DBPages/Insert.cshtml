@@ -27,13 +27,21 @@
                         + "ORDER BY 2";
 
     var supplierlist = db.Query(supplierquery);
+
+    Validation.Add("ProductName", Validator.Required("Product Name is required."));
+    Validation.Add("UnitPrice", Validator.Decimal("Price is a number like 5.99"),
+                                Validator.Range(0.00, 20.00, "Price must be between 0.00 and 20.00");
+
+    Validation.Add("ReorderLevel", Validator.Integer("Reorder level is a number."),
+                                   Validator.Range(1950.0, double.MaxValue, "Reorder level must be 0 or greater.");
+    /*Validation.Add("Category", Validator.Range(1, 8, "Please select a category"));*/
 }
 
 @section banner{
     <span style="font-size:xx-large"><strong>CRUD: Insert</strong></span>
 }
 
-@if (IsPost) {
+@if (IsPost && Validation.IsValid()) {
 
     if(formbutton.Equals("reset"))
     {
@@ -92,6 +100,7 @@
 
 }
 <div>
+    @Html.ValidationSummary()
     <form id="theForm" action="" method="post">
         <div class="row">
             <div class="col-sm-5 text-right">
@@ -106,7 +115,7 @@
                 <label id="forDiscontinued">Disc.:</label><br />
             </div>
             <div class="col-sm-6">
-                <input type="text" name="ProductName" id="ProductName" value="@productname" placeholder="product name" /><br />
+                <input type="text" name="ProductName" id="ProductName" value="@productname" placeholder="product name" />@Html.ValidationMessage("ProductName")<br />
                 <!--<input type="text" name="Supplier" id="Supplier" value="@selectedsupplier" placeholder="supplier id" /><br />-->
                 <select id="Supplier" name="Supplier">
                     <option value="0">select...</option>
@@ -138,10 +147,10 @@
                     }
                 </select><br />
                 <input type="text" name="QuantityPerUnit" id="QuantityPerUnit" value="@quantityperunit" /><br />
-                <input type="text" name="UnitPrice" id="UnitPrice" value="@unitprice" /><br />
+                <input type="text" name="UnitPrice" id="UnitPrice" value="@unitprice" />@Html.ValidationMessage("UnitPrice")<br />
                 <input type="text" name="UnitsInStock" id="UnitsInStock" value="@unitsinstock" title="Quantity currently in inventory." /><br />
                 <input type="text" name="UnitsOnOrder" id="UnitsOnOrder" value="@unitsonorder" title="Quantity currently on Order." /><br />
-                <input type="text" name="ReorderLevel" id="ReorderLevel" value="@reorderlevel" title="Quantity safety level." /><br />
+                <input type="text" name="ReorderLevel" id="ReorderLevel" value="@reorderlevel" title="Quantity safety level." />@Html.ValidationMessage("ReorderLevel")<br />
                 <input type="checkbox" name="Discontinued" id="Discontinued" title="Product is discontinued if checked."
                        @(string.IsNullOrEmpty(discontinued) ? "" : "checked") /><br />
             </div>

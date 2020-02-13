@@ -14,67 +14,130 @@
     var artistquery = "SELECT ArtistId, Name  "
                         + "FROM Artists "
                         + "ORDER BY Name";
-    
+
     var artistlist = db.Query(artistquery);
 
     Validation.Add("AlbumTitle", Validator.Required("Title is required."));
     Validation.Add("AlbumTitle", Validator.StringLength(160, 1, "Title should be equal or less than 160 characters."));
-    Validation.Add("AlbumArtist", Validator.Required("Artist is required."));
-    Validation.Add("AlbumYear", Validator.Required("Release year is required."));
-    Validation.Add("AlbumLabel", Validator.StringLength(50, 1, "Release label should be equal or less than 50 characters."));
-    Validation.Add("UnitPrice", Validator.Decimal("Price is a number like 5.99"),
-                                Validator.Range(0.00, 20.00, "Price must be between 0.00 and 20.00");
 
-    Validation.Add("ReorderLevel", Validator.Integer("Reorder level is a number."),
-                                   Validator.Range(1950.0, double.MaxValue, "Reorder level must be 0 or greater.");
-    /*Validation.Add("Category", Validator.Range(1, 8, "Please select a category"));*/
+    Validation.Add("AlbumArtist", Validator.Required("Artist is required."));
+
+    Validation.Add("AlbumYear", Validator.Required("Release year is required."));
+    Validation.Add("AlbumYear", Validator.Range(1950, DateTime.Today.Year, "Year should be between 1950 up to the present year inclusive."));
+
+    Validation.Add("AlbumLabel", Validator.StringLength(50, 1, "Release label should be equal or less than 50 characters."));
 }
 
 @section pagetitle{
     <span style="font-size:xx-large"><strong>Exercise03: Database Data Entry</strong></span>
 }
 
+@if (IsPost && Validation.IsValid())
+{
+
+    if (formbutton.Equals("reset"))
+    {
+        <p class="col-sm-11 text-center">Cleared by user</p>
+         albumtitle = "";
+         //var albumartist = "";
+         albumyear = "";
+         albumlabel = "";
+    }
+    else
+    {
+        //collect data from input text boxes
+        albumtitle = Request.Form["AlbumTitle"];
+        albumartist = Request.Form["AlbumArtist"];
+        albumyear = Request.Form["AlbumYear"];
+        albumlabel = Request.Form["AlbumLabel"];
+
+        try
+        {
+            var db1 = Database.Open("CHINOOKDB");
+
+
+
+
+            var insertcommand = "INSERT INTO Albums  (Title, ArtistId, ReleaseYear, ReleaseLabel) "
+                            + "VALUES(@0, @1, @2, @3)";
+
+            db1.Execute(insertcommand,
+                 string.IsNullOrEmpty(albumtitle) ? null : albumtitle,
+                 string.IsNullOrEmpty(albumartist) ? null :  albumartist,
+                 string.IsNullOrEmpty(albumyear) ? null : albumyear,
+                 string.IsNullOrEmpty(albumlabel) ? null : albumlabel);
+
+            <p class="col-sm-11 text-center">
+                <span style="color:green">
+                    New album added
+                </span>
+            </p>
+        }
+        catch (Exception ex)
+        {
+            <p class="col-sm-11 text-center">
+                <span style="color:firebrick">
+                    <strong>@ex.Message</strong>
+                </span>
+            </p>
+        }
+    }
+
+}
 <div>
     @Html.ValidationSummary()
-    <form id="theForm" action="" method="post">
-        <div class="form-group">
-            <div class="col-sm-5 text-right">
-                <h3>Enter Album</h3>
-                <label id="forTitle">Title:</label><br />
-                <label id="forArtist">Artist:</label><br />
-                <label id="forYear">Year:</label><br />
-                <label id="forLabel">Label:</label><br />
-            </div>
-            <div class="col-sm-6">
-                <input type="text" name="AlbumTitle" id="AlbumTitle" value="@albumtitle" placeholder="title" /><br />
-                <select id="AlbumArtist" name="AlbumArtist">
-                    <option value="0">select...</option>
-                    @foreach (var item in artistlist)
-                    {
-                        if (albumartist.Equals(item[0].ToString()))
-                        {
-                            <option value="@item[0]" selected>@item.Name</option>
-                        }
-                        else
-                        {
-                            <option value="@item[0]">@item.Name</option>
-                        }
-                    }
-                </select><br />
-                <input type="number" name="AlbumYear" id="AlbumYear" value="@albumyear" placeholder="year" /><br />
-                <input type="text" name="AlbumLabel" id="AlbumLabel" value="@albumlabel" placeholder="label" /><br />
-            </div>
-            <div class="row">
-                <div class="col-sm-11 text-center">
-                    <button type="submit" name="FormButton" value="submit" class="btn btn-primary" style="width:90px">
-                        Add
-                    </button>
-                    &nbsp;&nbsp;
-                    <button type="submit" name="FormButton" value="reset" class="btn" style="width:90px">
-                        Clear
-                    </button>
+    <div class="row">
+        <div class="col-xs-6">
+            <form class="form-horizontal" id="theForm" action="" method="post">
+                <div class="form-group">
+                    <label class="col-xs-2" id="forTitle">Title:</label>
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" name="AlbumTitle" id="AlbumTitle" value="@albumtitle" placeholder="title" />
+                    </div>
                 </div>
-            </div>
+                <div class="form-group">
+                    <label class="col-xs-2" id="forArtist">Artist:</label>
+                    <div class="col-xs-10">
+                        <select class="form-control" id="AlbumArtist" name="AlbumArtist">
+                            <option value="0">Select Artist...</option>
+                            @foreach (var item in artistlist)
+                            {
+                                if (albumartist.Equals(item[0].ToString()))
+                                {
+                                    <option value="@item[0]" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item[0]">@item.Name</option>
+                                }
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2" id="forYear">Year:</label>
+                    <div class="col-xs-10">
+                        <input class="form-control" type="number" name="AlbumYear" id="AlbumYear" value="@albumyear" placeholder="year" />
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2" id="forLabel">Label:</label>
+                    <div class="col-xs-10">
+                        <input class="form-control" type="text" name="AlbumLabel" id="AlbumLabel" value="@albumlabel" placeholder="label" />
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-11 text-center">
+                        <button type="submit" name="FormButton" value="submit" class="btn btn-primary" style="width:90px">
+                            Add
+                        </button>
+                        &nbsp;&nbsp;
+                        <button type="submit" name="FormButton" value="reset" class="btn" style="width:90px">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+            </form>
         </div>
-    </form>
+    </div>
 </div>

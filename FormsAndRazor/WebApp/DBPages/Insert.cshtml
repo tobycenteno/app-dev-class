@@ -1,5 +1,5 @@
 ﻿@{
-    Page.Title = "CRUD: Insert";
+    Page.Title = "Insert";
     Layout = "~/_LayoutMenu.cshtml";
 
     var formbutton = Request.Form["FormButton"];
@@ -14,43 +14,46 @@
     var reorderlevel = "";
     var discontinued = "";
 
+    //connect to the database
     var db = Database.Open("NWDB");
-
+    var supplierquery = "SELECT SupplierID, CompanyName "
+                + "FROM Suppliers "
+                + "ORDER BY 2";
     var categoryquery = "SELECT CategoryID, CategoryName "
                         + "FROM Categories "
                         + "ORDER BY 2";
-
+    var supplierlist = db.Query(supplierquery);
     var categorylist = db.Query(categoryquery);
 
-    var supplierquery = "SELECT SupplierID, CompanyName "
-                        + "FROM Suppliers "
-                        + "ORDER BY 2";
-
-    var supplierlist = db.Query(supplierquery);
-
-    Validation.Add("ProductName", Validator.Required("Product Name is required."));
-    Validation.Add("UnitPrice", Validator.Decimal("Price is a number like 5.99"),
-                                Validator.Range(0.00, 20.00, "Price must be between 0.00 and 20.00"));
-
-    Validation.Add("ReorderLevel", Validator.Integer("Reorder level is a number."),
-                                   Validator.Range(1950.0, double.MaxValue, "Reorder level must be 0 or greater."));
-    /*Validation.Add("Category", Validator.Range(1, 8, "Please select a category"));*/
+    //typical arguments include controlname (r), error message(sr),
+    // depending on helper: additional arguments
+    Validation.Add("ProductName",
+        Validator.Required("Product Name is required"));
+    Validation.Add("UnitPrice",
+        Validator.Decimal("Price is a number like 5.99"),
+        Validator.Range(0.00, 20.00, "Price must be between 0.00 and 20.00"));
+    Validation.Add("ReorderLevel",
+        Validator.Integer("Reorder level is a number"),
+        Validator.Range(1950.0, double.MaxValue, "Reorder level must be 0 or greater"));
+    //example of using a Regex
+    //Validation.Add("QuantityPerUnit",
+    //    Validator.Required("Qty per Unit is required"),
+    //    Validator.Regex("[a-zA-Z][0-9][a-zA-Z][0-9][a-zA-Z][0-9]", "This is not a postal code"));
 }
 
 @section banner{
     <span style="font-size:xx-large"><strong>CRUD: Insert</strong></span>
 }
-
-@if (IsPost && Validation.IsValid()) {
-
-    if(formbutton.Equals("reset"))
+@if (IsPost)
+{
+    if (formbutton.Equals("reset"))
     {
         <p class="col-sm-11 text-center">Cleared by user</p>
         discontinued = "";
     }
     else
     {
-        //collect data from input text boxes
+        //collect the data from the input controls
         productname = Request.Form["ProductName"];
         selectedsupplier = Request.Form["Supplier"];
         selectedcategory = Request.Form["Category"];
@@ -59,50 +62,85 @@
         unitsinstock = Request.Form["UnitsInStock"];
         unitsonorder = Request.Form["UnitsOnOrder"];
         reorderlevel = Request.Form["ReorderLevel"];
-
-        //returns null (unchecked) or "on" (checked
+        //checkboxs return null (not checked) and "on" (checked)
         discontinued = Request.Form["Discontinued"];
 
-        try
+        if (Validation.IsValid())
         {
-            var db1 = Database.Open("NWDB");
+            if (selectedsupplier.Equals("0"))
+            {
+                //lets assume for this example that the foreign keys
+                //are required
+                <p class="col-sm-11 text-center">
+                    <span style="color:firebrick">
+                        <strong>A supplier needs to be selected</strong>
+                    </span>
+                </p>
+            }
+            else if (selectedcategory.Equals("0"))
+            {
 
-            var insertcommand = "INSERT INTO Products (ProductName, SupplierID, "
-                            + "CategoryID, QuantityPerUnit, UnitPrice, UnitsInStock, "
-                            + "UnitsOnOrder, ReorderLevel, Discontinued) "
-                            + "VALUES(@0, @1, @2, @3, @4, @5, @6, @7, @8)";
+                <p class="col-sm-11 text-center">
+                    <span style="color:firebrick">
+                        <strong>A catgeory needs to be selected</strong>
+                    </span>
+                </p>
+            }
+            else
+            {
+                //assume data is valid at this point
 
-            db1.Execute(insertcommand, productname,
-                 string.IsNullOrEmpty(selectedsupplier) ? null : selectedsupplier,
-                 string.IsNullOrEmpty(selectedcategory) ? null : selectedcategory,
-                 string.IsNullOrEmpty(quantityperunit) ? null : quantityperunit,
-                 string.IsNullOrEmpty(unitprice) ? null : unitprice,
-                 string.IsNullOrEmpty(unitsinstock) ? null : unitsinstock,
-                 string.IsNullOrEmpty(unitsonorder) ? null : unitsonorder,
-                 string.IsNullOrEmpty(reorderlevel) ? null : reorderlevel,
-                 string.IsNullOrEmpty(discontinued) ? 0 : 1);
-                
-             <p class="col-sm-11 text-center">
-                <span style="color:green">
-                    New product added to file
-                </span>
-            </p>
-        }
-        catch (Exception ex)
-        {
-            <p class="col-sm-11 text-center">
-                <span style="color:firebrick">
-                    <strong>@ex.Message</strong>
-                </span>
-            </p>
-        }
+                //all of this needs to be warpped inside a Try/Catch
+                try
+                {
+
+                    //does the sql table generate the primary key?
+                    //create an sql Insert command
+                    var insertcommand = "INSERT INTO Products (ProductName, SupplierID, "
+                                    + "CategoryID, QuantityPerUnit, UnitPrice, UnitsInStock, "
+                                    + "UnitsOnOrder, ReorderLevel, Discontinued) "
+                                    + "VALUES(@0,@1,@2,@3,@4,@5,@6,@7,@8)";
+                    //run the Insert command
+                    db.Execute(insertcommand, productname,
+                        string.IsNullOrEmpty(selectedsupplier) ? null : selectedsupplier,
+                        string.IsNullOrEmpty(selectedcategory) ? null : selectedcategory,
+                        string.IsNullOrEmpty(quantityperunit) ? null : quantityperunit,
+                        string.IsNullOrEmpty(unitprice) ? null : unitprice,
+                        string.IsNullOrEmpty(unitsinstock) ? null : unitsinstock,
+                        string.IsNullOrEmpty(unitsonorder) ? null : unitsonorder,
+                        string.IsNullOrEmpty(reorderlevel) ? null : reorderlevel,
+                        string.IsNullOrEmpty(discontinued) ? 0 : 1);
+                    <p class="col-sm-11 text-center">
+                        <span style="color:green">
+                            New product added to file
+                        </span>
+                    </p>
+
+                }
+                catch (Exception ex)
+                {
+                    <p class="col-sm-11 text-center">
+                        <span style="color:firebrick">
+                            <strong>@ex.Message</strong>
+                        </span>
+                    </p>
+                }
+            }//eof supplier and category
+        }// eof validation
     }
-
+}
+else
+{
+    //initialized values for input controls
+    //that will be used on the first pass of the page
 }
 <div>
+      @* display validation messages in summary form
+       messages will be in a bulleted list by default *@
     @Html.ValidationSummary()
     <form id="theForm" action="" method="post">
         <div class="row">
+
             <div class="col-sm-5 text-right">
                 <label id="forProductName">Name:</label><br />
                 <label id="forSupplier">Supplier:</label><br />
@@ -115,10 +153,15 @@
                 <label id="forDiscontinued">Disc.:</label><br />
             </div>
             <div class="col-sm-6">
-                <input type="text" name="ProductName" id="ProductName" value="@productname" placeholder="product name" />@Html.ValidationMessage("ProductName")<br />
-                <!--<input type="text" name="Supplier" id="Supplier" value="@selectedsupplier" placeholder="supplier id" /><br />-->
+                <input type="text" name="ProductName" id="ProductName" value="@productname"
+                       placeholder="product name" />
+                @* validation messages associated with a control
+                    can be placed outside the summary at any
+                    desired location *@
+                @Html.ValidationMessage("ProductName")
+                <br />
                 <select id="Supplier" name="Supplier">
-                    <option value="0">select...</option>
+                    <option value="0">select ...</option>
                     @foreach (var item in supplierlist)
                     {
                         if (selectedsupplier.Equals(item[0].ToString()))
@@ -129,42 +172,51 @@
                         {
                             <option value="@item[0]">@item.CompanyName</option>
                         }
+
                     }
                 </select><br />
-                <!--<input type="text" name="Category" id="Category" value="@selectedcategory" placeholder="category id" /><br />-->
                 <select id="Category" name="Category">
-                    <option value="0">select...</option>
+                    <option value="0">select ...</option>
                     @foreach (var item in categorylist)
                     {
                         if (selectedcategory.Equals(item[0].ToString()))
                         {
-                            <option value="@item[0]" selected>@item.CategoryName</option>
+                            <option value="@item.CategoryID" selected>@item[1]</option>
                         }
                         else
                         {
-                            <option value="@item[0]">@item.CategoryName</option>
+                            <option value="@item.CategoryID">@item[1]</option>
                         }
+
                     }
                 </select><br />
                 <input type="text" name="QuantityPerUnit" id="QuantityPerUnit" value="@quantityperunit" /><br />
-                <input type="text" name="UnitPrice" id="UnitPrice" value="@unitprice" />@Html.ValidationMessage("UnitPrice")<br />
-                <input type="text" name="UnitsInStock" id="UnitsInStock" value="@unitsinstock" title="Quantity currently in inventory." /><br />
-                <input type="text" name="UnitsOnOrder" id="UnitsOnOrder" value="@unitsonorder" title="Quantity currently on Order." /><br />
-                <input type="text" name="ReorderLevel" id="ReorderLevel" value="@reorderlevel" title="Quantity safety level." />@Html.ValidationMessage("ReorderLevel")<br />
-                <input type="checkbox" name="Discontinued" id="Discontinued" title="Product is discontinued if checked."
+                <input type="text" name="UnitPrice" id="UnitPrice" value="@unitprice" /><br />
+                <input type="text" name="UnitsInStock" id="UnitsInStock" value="@unitsinstock"
+                       title="Quantity currently in inventory." /><br />
+                <input type="text" name="UnitsOnOrder" id="UnitsOnOrder" value="@unitsonorder"
+                       title="Quantity currently on Order." /><br />
+                <input type="text" name="ReorderLevel" id="ReorderLevel" value="@reorderlevel"
+                       title="Quantity safety level." /><br />
+                <input type="checkbox" name="Discontinued"
+                       title="Product is dicontinued if checked."
                        @(string.IsNullOrEmpty(discontinued) ? "" : "checked") /><br />
             </div>
-                <div class="row">
-                    <div class="col-sm-11 text-center">
-                        <button type="submit" name="FormButton" value="submit" class="btn btn-primary" style="width:90px">
-                            Add
-                        </button>
-                        &nbsp;&nbsp;
-                        <button type="submit" name="FormButton" value="reset" class="btn" style="width:90px">
-                            Clear
-                        </button>
-                    </div>
-                </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-sm-11 text-center">
+                <button type="submit" name="FormButton" value="submit"
+                        class="btn btn-primary" style="width:90px">
+                    Add
+                </button>
+                &nbsp;&nbsp;
+                <button type="submit" name="FormButton" value="reset"
+                        class="btn" style="width:90px">
+                    Clear
+                </button>
             </div>
-        </form>
-    </div>
+        </div>
+    </form>
+</div>

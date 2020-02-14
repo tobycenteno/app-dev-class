@@ -1,0 +1,72 @@
+﻿@{
+    Layout = "~/_Layout.cshtml";
+    Page.Title = "Exercise04";
+
+    var albumsearch = Request.Form["AlbumSearch"];
+
+    var db = Database.Open("CHINOOKDB");
+
+    var queryStatement = "SELECT AlbumId, Title, ArtistId, ReleaseYear, ReleaseLabel  "
+                        + "FROM Albums "
+                        + "WHERE Title like '%" + albumsearch + "%' "
+                        + "ORDER BY Title";
+    var queryalbum = db.Query(queryStatement);
+
+}
+
+@section pagetitle{
+    <span style="font-size:xx-large"><strong>Exercise04: Update/Delete Album</strong></span>
+}
+
+<div class="form-group">
+    <form id="theForm" action="" method="post">
+        <div class="col-sm-3">
+            <label id="forAlbumSearch">Enter Album name (or partial name)</label><br />
+            <input type="text" name="AlbumSearch" value=" @albumsearch"><br /><br />
+            <button type="submit" class="btn btn-primary" name="Search" id="theSearch">Search</button>
+        </div>
+        <div class="col-sm-8">
+            @if (IsPost)
+            {
+                if (albumsearch.IsEmpty())
+                {
+                    <p><strong><span style="color:firebrick">Enter a product name (or partial name).</span></strong></p>
+                }
+                else
+                {
+                    if (queryalbum.Count() == 0)
+                    {
+                        <p><strong><span style="color:firebrick">Nothing found for search argument.</span></strong></p>
+                    }
+                    else
+                    {
+                        var grid = new WebGrid(queryalbum);
+                        @grid.GetHtml("table table-bordered table-striped table-hover",
+                        mode: WebGridPagerModes.All,
+                        lastText: "Last",
+                        firstText: "First",
+                        columns: grid.Columns(
+                        grid.Column(columnName: "AlbumID", header: "Album ID"),
+                        grid.Column(columnName: "Title"),
+                        grid.Column(columnName: "ArtistID", header: "Artist ID"),
+                        grid.Column(columnName: "ReleaseYear", header: "Release Year"),
+                        grid.Column(columnName: "ReleaseLabel", header: "Release Label"),
+                        grid.Column(header: "", format: @<text><a href="~/DBPages/Exercise04_AlbumEdit.cshtml?alid=@item.AlbumID">Edit</a></text>)
+));
+                    }
+                }
+            }
+        </div>
+        @* since the webgrid is in the form (method:post), the webgrid's Get used
+              for paging has a problem.
+            the following script cause a post to happen on the webgrid's paging even *@
+        <script type="text/javascript">
+            var links = $('a[href*=page], a[href*=sort]'), form = $('form');
+            links.click(function () {
+                form.attr("action", this.href);
+                $(this).attr("href","javascript:");
+                form.submit();
+            });
+        </script>
+    </form>
+</div> 

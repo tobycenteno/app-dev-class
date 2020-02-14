@@ -9,11 +9,11 @@
         Response.Redirect("Exercise04_AlbumSearch.cshtml");
     }
 
-    var albumid = Request.Form["ProductID"];
-    var albumtitle = Request.Form["ProductName"];
-    var artistid = Request.Form["SupplierList"];
-    var releaseyear = Request.Form["CategoryList"];
-    var releaselabel = Request.Form["QuantityPerUnit"];
+    var albumid = Request.Form["AlbumID"];
+    var albumtitle = Request.Form["AlbumTitle"];
+    var artistid = Request.Form["ArtistList"];
+    var releaseyear = Request.Form["ReleaseYear"];
+    var releaselabel = Request.Form["ReleaseLabel"];
 
     //capture which button was pressed
     var thebutton = Request.Form["theButton"];
@@ -107,7 +107,7 @@
                 {
                     <p>
                         <span style="color:blue">
-                            Delete failed. No product called @productname with an id of @productid on file.
+                            Delete failed. No product called @albumtitle with an id of @albumid on file.
                         </span>
                     </p>
                 }
@@ -162,7 +162,8 @@
                     int results = db.Execute(updatecommmand, albumtitle,
                         artistid == "" ? null : artistid,
                         string.IsNullOrEmpty(releaseyear) ? null : releaseyear,
-                        string.IsNullOrEmpty(releaselabel) ? null : releaselabel);
+                        string.IsNullOrEmpty(releaselabel) ? null : releaselabel,
+                        albumid);
                     if (results > 0)
                     {
                         <p>
@@ -175,7 +176,7 @@
                     {
                         <p>
                             <span style="color:blue">
-                                Update failed. No product called @productname with an id of @productid on file.
+                                Update failed. No product called @albumtitle with an id of @albumid on file.
                             </span>
                         </p>
                     }
@@ -206,40 +207,31 @@ else //for IsPost
     //  have a record where the nullable fields are actual null
     //the following code takes into account fields which actually
     //  maybe null
-    albumid = queryAlbums.AlbumID.ToString();
-    albumtitle = queryAlbums.Title;
-    supplierid = queryAlbums.SupplierID == null ? "0" : queryProducts.SupplierID.ToString();
-    categoryid = queryAlbums.CategoryID == null ? "0" : queryProducts.CategoryID.ToString();
-    quantityperunit = queryAlbums.QuantityPerUnit;
-    unitprice = queryProducts.UnitPrice == null ? "" : queryProducts.UnitPrice.ToString();
-    unitsinstock = queryProducts.UnitsInStock == null ? "" : queryProducts.UnitsInStock.ToString();
-    unitsonorder = queryProducts.UnitsOnOrder == null ? "" : queryProducts.UnitsOnOrder.ToString();
-    reorderlevel = queryProducts.ReorderLevel == null ? "" : queryProducts.ReorderLevel.ToString();
-    discontinued = queryProducts.Discontinued.ToString();//from sql 0/1
+    albumid = queryAlbums.AlbumId.ToString();
+    albumtitle = queryAlbums.Title.ToString();
+    artistid = queryAlbums.ArtistId == null ? "" : queryAlbums.ArtistId.ToString();
+    releaseyear = queryAlbums.ReleaseYear.ToString();
+    releaselabel = queryAlbums.ReleaseLabel.ToString();
+
 }
 <div class="form-group">
 
     <form id="theForm" action="" method="post">
         <div class="col-sm-6">
-            <label id="forProductID">Product ID</label><br />
-            <label id="forProductID">Product Name</label><br />
-            <label id="forProductID">Supplier</label><br />
-            <label id="forProductID">Category</label><br />
-            <label id="forProductID">Quantity Per Unit</label><br />
-            <label id="forProductID">Unit Price</label><br />
-            <label id="forProductID">Units In Stock</label><br />
-            <label id="forProductID">Units On Order</label><br />
-            <label id="forProductID">ReorderLevel</label><br />
-            <label id="forProductID">Discontinued</label><br />
+            <label id="forAlbumID">Album ID</label><br />
+            <label id="forAlbumTitle">Album Title</label><br />
+            <label id="forArtistID">Artist</label><br />
+            <label id="forReleaseYear">Release Year</label><br />
+            <label id="forReleaseLabel">Release Label</label><br />
         </div>
         <div class="col-sm-6">
-            <input type="text" name="ProductID" value="@albumid" readonly /><br />
-            <input type="text" name="ProductName" value="@albumtitle" /><br />
-            <select name="SupplierList">
+            <input type="text" name="AlbumID" value="@albumid" readonly /><br />
+            <input type="text" name="AlbumTitle" value="@albumtitle" /><br />
+            <select name="ArtistList">
                 <option value="0">select...</option>
-                @foreach (var acollectionrow in querySuppliers)
+                @foreach (var acollectionrow in artistlist)
                 {
-                    if (acollectionrow.SupplierID.ToString() == supplierid)
+                    if (acollectionrow.ArtistId.ToString() == artistid)
                     {
                         <option value="@acollectionrow[0]" selected>@acollectionrow[1]</option>
                     }
@@ -249,33 +241,8 @@ else //for IsPost
                     }
                 }
             </select><br />
-            <select name="CategoryList">
-                <option value="0">select...</option>
-                @foreach (var acollectionrow in queryCategories)
-                {
-                    if (acollectionrow.CategoryID.ToString() == categoryid)
-                    {
-                        <option value="@acollectionrow[0]" selected>@acollectionrow[1]</option>
-                    }
-                    else
-                    {
-                        <option value="@acollectionrow[0]">@acollectionrow[1]</option>
-                    }
-                }
-            </select><br />
-            <input type="text" name="QuantityPerUnit" value="@quantityperunit" /><br />
-            <input type="number" name="UnitPrice" value="@unitprice" min="0.00" step="0.01" /><br />
-            <input type="number" name="UnitsInStock" value="@unitsinstock" min="0" step="1" /><br />
-            <input type="number" name="UnitsOnOrder" value="@unitsonorder" min="0" step="1" /><br />
-            <input type="number" name="ReorderLevel" value="@reorderlevel" min="0" step="1" /><br />
-            @if (discontinued.Equals("True") || (discontinued == "1"))
-            {
-                <input type="checkbox" name="Discontinued" checked value="1" /><br /><br />
-            }
-            else
-            {
-                <input type="checkbox" name="Discontinued" value="0" /><br /><br />
-            }
+            <input type="number" name="ReleaseYear" value="@releaseyear" min="0.00" step="0.01" />
+            <input type="text" name="ReleaseLabel" value="@releaselabel" /><br />
         </div>
         <div class="row">
             <button type="submit" name="theButton" id="theUpdate" class="btn btn-primary" value="update">Update</button>&nbsp;&nbsp;&nbsp;
@@ -287,7 +254,7 @@ else //for IsPost
         <script type="text/javascript">
                 document.getElementById("theDelete").onclick = ConfirmDelete;
                 function ConfirmDelete() {
-                    return confirm("Are you sure you want to remove @productname");
+                    return confirm("Are you sure you want to remove @albumtitle");
                 }
         </script>
     </form>

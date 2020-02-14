@@ -30,10 +30,10 @@
 
     Validation.Add("ProductName", Validator.Required("Product Name is required."));
     Validation.Add("UnitPrice", Validator.Decimal("Price is a number like 5.99"),
-                                Validator.Range(0.00, 20.00, "Price must be between 0.00 and 20.00");
+                                Validator.Range(0.00, 20.00, "Price must be between 0.00 and 20.00"));
 
     Validation.Add("ReorderLevel", Validator.Integer("Reorder level is a number."),
-                                   Validator.Range(1950.0, double.MaxValue, "Reorder level must be 0 or greater.");
+                                   Validator.Range(1950.0, double.MaxValue, "Reorder level must be 0 or greater."));
     /*Validation.Add("Category", Validator.Range(1, 8, "Please select a category"));*/
 }
 

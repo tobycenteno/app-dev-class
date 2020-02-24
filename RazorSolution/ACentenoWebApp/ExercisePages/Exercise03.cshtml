@@ -17,7 +17,7 @@
 
     var artistlist = db.Query(artistquery);
 
-    Validation.RequireField("AlbumTitle", "Title is required.");
+    Validation.Add("AlbumTitle", Validator.Required("Title is required."));
     Validation.Add("AlbumTitle", Validator.StringLength(160, 1, "Title should be equal or less than 160 characters."));
 
     Validation.Add("AlbumArtist", Validator.Required("Artist is required."));
@@ -66,84 +66,80 @@
                      string.IsNullOrEmpty(albumyear) ? null : albumyear,
                      string.IsNullOrEmpty(albumlabel) ? null : albumlabel);
 
-                <p class="col-sm-11 text-center">
-                    <span style="color:green">
-                        New album added
-                    </span>
-                </p>
+                <div class="alert alert-success">
+                    New album added
+                </div>
             }
             catch (Exception ex)
             {
-                <p class="col-sm-11 text-center">
-                    <span style="color:firebrick">
-                        <strong>@ex.Message</strong>
-                    </span>
-                </p>
-            }
-        }
+                <div class="alert alert-danger">
+                    @ex.Message
+                </div>
+                    }
+                    }
 
 
-    }
+                    }
 
-}
-<div>
-    <div class="row">
-        <div class="col-xs-6">
-            <form class="form-horizontal" id="theForm" action="" method="post">
-                <div class="form-group">
-                    <label class="col-xs-2" id="forTitle">Title:</label>
-                    <div class="col-xs-10">
-                        <input class="input-validation-error form-control" type="text" name="AlbumTitle" id="AlbumTitle" value="@albumtitle" placeholder="title" />
-                        <span class="text-danger">@Html.ValidationMessage("AlbumTitle")</span>
-                    </div>
+                    }
+                    <div>
+                        <div class="row">
+                            <div class="col-xs-6">
+                                <form class="form-horizontal" id="theForm" action="" method="post">
+                                    <div class="form-group">
+                                        <label class="col-xs-2" id="forTitle">Title:</label>
+                                        <div class="col-xs-10">
+                                            <input class="input-validation-error form-control" type="text" name="AlbumTitle" id="AlbumTitle" value="@albumtitle" placeholder="title" />
+                                            <span class="text-danger">@Html.ValidationMessage("AlbumTitle")</span>
+                                        </div>
 
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-2" id="forArtist">Artist:</label>
-                    <div class="col-xs-10">
-                        <select class="form-control" id="AlbumArtist" name="AlbumArtist" value="@albumartist">
-                            <option value="">Select Artist...</option>
-                            @foreach (var item in artistlist)
-                            {
-                                if (albumartist.Equals(item[0].ToString()))
-                                {
-                                    <option value="@item[0]" selected>@item.Name</option>
-                                }
-                                else
-                                {
-                                    <option value="@item[0]">@item.Name</option>
-                                }
-                            }
-                        </select>
-                        <span class="text-danger">@Html.ValidationMessage("AlbumArtist")</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2" id="forArtist">Artist:</label>
+                                        <div class="col-xs-10">
+                                            <select class="form-control" id="AlbumArtist" name="AlbumArtist" value="@albumartist">
+                                                <option value="">Select Artist...</option>
+                                                @foreach (var item in artistlist)
+                                                {
+                                                    if (albumartist.Equals(item[0].ToString()))
+                                                    {
+                                                        <option value="@item[0]" selected>@item.Name</option>
+                                                    }
+                                                    else
+                                                    {
+                                                        <option value="@item[0]">@item.Name</option>
+                                                    }
+                                                }
+                                            </select>
+                                            <span class="text-danger">@Html.ValidationMessage("AlbumArtist")</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2" id="forYear">Year:</label>
+                                        <div class="col-xs-10">
+                                            <input class="input-validation-error form-control" type="number" name="AlbumYear" id="AlbumYear" value="@albumyear" placeholder="year" />
+                                            <span class="text-danger">@Html.ValidationMessage("AlbumYear")</span>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="col-xs-2" id="forLabel">Label:</label>
+                                        <div class="col-xs-10">
+                                            <input class="input-validation-error form-control" type="text" name="AlbumLabel" id="AlbumLabel" value="@albumlabel" placeholder="label" />
+                                            <span class="text-danger">@Html.ValidationMessage("AlbumLabel")</span>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-sm-11 text-center">
+                                            <button type="submit" name="FormButton" value="submit" class="btn btn-primary" style="width:90px">
+                                                Add
+                                            </button>
+                                            &nbsp;&nbsp;
+                                            <button type="submit" name="FormButton" value="reset" class="btn" style="width:90px">
+                                                Clear
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
                     </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-2" id="forYear">Year:</label>
-                    <div class="col-xs-10">
-                        <input class="input-validation-error form-control" type="number" name="AlbumYear" id="AlbumYear" value="@albumyear" placeholder="year" />
-                        <span class="text-danger">@Html.ValidationMessage("AlbumYear")</span>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label class="col-xs-2" id="forLabel">Label:</label>
-                    <div class="col-xs-10">
-                        <input class="input-validation-error form-control" type="text" name="AlbumLabel" id="AlbumLabel" value="@albumlabel" placeholder="label" />
-                        <span class="text-danger">@Html.ValidationMessage("AlbumLabel")</span>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-11 text-center">
-                        <button type="submit" name="FormButton" value="submit" class="btn btn-primary" style="width:90px">
-                            Add
-                        </button>
-                        &nbsp;&nbsp;
-                        <button type="submit" name="FormButton" value="reset" class="btn" style="width:90px">
-                            Clear
-                        </button>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>

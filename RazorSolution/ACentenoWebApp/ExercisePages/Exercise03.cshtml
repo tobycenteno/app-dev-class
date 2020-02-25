@@ -25,7 +25,7 @@
     Validation.Add("AlbumYear", Validator.Required("Release year is required."));
     Validation.Add("AlbumYear", Validator.Range(1950, DateTime.Today.Year, "Year should be between 1950 up to the present year inclusive."));
 
-    Validation.Add("AlbumLabel", Validator.StringLength(50, 1, "Release label should be equal or less than 50 characters."));
+    Validation.Add("AlbumLabel", Validator.StringLength(50, 0, "Release label should be equal or less than 50 characters."));
 }
 
 @section pagetitle{

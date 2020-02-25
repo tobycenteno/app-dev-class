@@ -41,7 +41,7 @@
     Validation.Add("ReleaseYear", Validator.Required("Release year is required."));
     Validation.Add("ReleaseYear", Validator.Range(1950, DateTime.Today.Year, "Year should be between 1950 up to the present year inclusive."));
 
-    Validation.Add("ReleaseLabel", Validator.StringLength(50, 1, "Release label should be equal or less than 50 characters."));
+    Validation.Add("ReleaseLabel", Validator.StringLength(50, 0, "Release label should be equal or less than 50 characters."));
 }
 
 
@@ -76,7 +76,7 @@
                     albumtitle = queryAlbums.Title.ToString();
                     artistid = queryAlbums.ArtistId == null ? "" : queryAlbums.ArtistId.ToString();
                     releaseyear = queryAlbums.ReleaseYear.ToString();
-                    releaselabel = queryAlbums.ReleaseLabel.ToString() == null ? "" : queryAlbums.ReleaseLabel.ToString();
+                    releaselabel = queryAlbums.ReleaseLabel == null ? "" : queryAlbums.ReleaseLabel.ToString();
                 }
                 else if (thebutton.Equals("delete"))
                 {
@@ -214,7 +214,7 @@ albumid = queryAlbums.AlbumId.ToString();
 albumtitle = queryAlbums.Title.ToString();
 artistid = queryAlbums.ArtistId == null ? "" : queryAlbums.ArtistId.ToString();
 releaseyear = queryAlbums.ReleaseYear.ToString();
-releaselabel = queryAlbums.ReleaseLabel.ToString() == null ? "" : queryAlbums.ReleaseLabel.ToString();
+releaselabel = queryAlbums.ReleaseLabel == null ? "" : queryAlbums.ReleaseLabel.ToString();
 
 }
             <form class="form-horizontal" id="theForm" action="" method="post">

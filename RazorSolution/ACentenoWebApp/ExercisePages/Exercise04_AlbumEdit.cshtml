@@ -49,97 +49,107 @@
     <span style="font-size:xx-large"><strong>Exercise04: Update/Delete Album</strong></span>
 }
 
-@if (IsPost)
-{
-    if (thebutton.Equals("cancel"))
-    {
-        //a)could redirect to search page
-        //b)reset data to the current record for productid
-        //c)empty the data fields.
-        //for b and c you should also supply a message to the user
-        albumid = "";
-        albumtitle = "";
-        artistid = "0";
-        releaseyear = "0";
-        releaselabel = "";
+<div>
+    <div class="row">
+        <div class="col-xs-6">
+            @if (IsPost)
+            {
+                if (thebutton.Equals("cancel"))
+                {
+                    //a)could redirect to search page
+                    //b)reset data to the current record for productid
+                    //c)empty the data fields.
+                    //for b and c you should also supply a message to the user
+                    albumid = "";
+                    albumtitle = "";
+                    artistid = "0";
+                    releaseyear = "0";
+                    releaselabel = "";
+                    <div class="alert alert-info" role="alert">
+                        User has cancelled the action. Return to <a href="~/ExercisePages/Exercise04_AlbumSearch.cshtml">
+    search</a> for another album.
+                    </div>
+                }
+                else if (thebutton.Equals("reset"))
+                {
+                    albumid = queryAlbums.AlbumId.ToString();
+                    albumtitle = queryAlbums.Title.ToString();
+                    artistid = queryAlbums.ArtistId == null ? "" : queryAlbums.ArtistId.ToString();
+                    releaseyear = queryAlbums.ReleaseYear.ToString();
+                    releaselabel = queryAlbums.ReleaseLabel.ToString() == null ? "" : queryAlbums.ReleaseLabel.ToString();
+                }
+                else if (thebutton.Equals("delete"))
+                {
+                    //check if there a productid to delete
+                    //if not message to use to get new product
+                    //if present
+                    //  create delete command
+                    //  execute
+                    //  message
+                    //  wrap in try/catch
+                    if (string.IsNullOrEmpty(albumid))
+                    {
         <div class="alert alert-info" role="alert">
-            No album selected. Return to search for another album
-            <a href="~/ExercisePages/Exercise04_AlbumSearch.cshtml">go to search...</a>
+            No album selected. Return to <a href="~/ExercisePages/Exercise04_AlbumSearch.cshtml">
+                search
+            </a> for another album.
         </div>
-    }
-    else if (thebutton.Equals("delete"))
-    {
-        //check if there a productid to delete
-        //if not message to use to get new product
-        //if present
-        //  create delete command
-        //  execute
-        //  message
-        //  wrap in try/catch
-        if (string.IsNullOrEmpty(albumid))
-        {
-            <div class="alert alert-info" role="alert">
-                No album selected. Return to search for another album
-                <a href="~/ExercisePages/Exercise04_AlbumSearch.cshtml">go to search...</a>
+                    }
+                    else
+                    {
+                        try
+                        {
+                            var deletecommmand = "DELETE Albums WHERE AlbumId = @0";
+                            int results = db.Execute(deletecommmand, albumid);
+                            if (results > 0)
+                            {
+        <div class="alert alert-success" role="alert">
+            Album successfully deleted.
             </div>
+            //optionally clear the fields.
+            albumid = "";
+            albumtitle = "";
+            artistid = "";
+            releaseyear = "";
+            releaselabel = "";
         }
         else
         {
-            try
-            {
-                var deletecommmand = "DELETE Albums WHERE AlbumId = @0";
-                int results = db.Execute(deletecommmand, albumid);
-                if (results > 0)
-                {
-                    <p>
-                        <span style="color:green">
-                            Album deleted.
-                        </span>
-                    </p>
-                    //optionally clear the fields.
-                    albumid = "";
-                    albumtitle = "";
-                    artistid = "";
-                    releaseyear = "";
-                    releaselabel = "";
-                }
-                else
-                {
-                    <div class="alert alert-danger" role="alert">
-                        Delete failed. No product called @albumtitle with an id of @albumid on file.
-                    </div>
-                }
-
-            }
-            catch (Exception ex)
-            {
-                <div class="alert alert-danger" role="alert">
-                    Deleted failed. Error @ex.Message
-                </div>
-            }
+            <div class="alert alert-danger" role="alert">
+                Delete failed. No album @albumtitle with an id of @albumid on file.
+            </div>
         }
+
+    }
+    catch (Exception ex)
+    {
+        <div class="alert alert-danger" role="alert">
+            Delete failed. <br />Error: @ex.Message
+        </div>
+    }
+}
+}
+else
+{
+//check is there a productid to update
+//if not message to use to get new product
+//if present
+//  cause validations
+//  if valid
+//      create delete command
+//      execute
+//      message
+//      wrap in try/catch
+if (string.IsNullOrEmpty(albumid))
+{
+        <div class="alert alert-info" role="alert">
+            No album selected. Return to <a href="~/ExercisePages/Exercise04_AlbumSearch.cshtml">
+                search
+            </a> for another album.
+        </div>
     }
     else
     {
-        //check is there a productid to update
-        //if not message to use to get new product
-        //if present
-        //  cause validations
-        //  if valid
-        //      create delete command
-        //      execute
-        //      message
-        //      wrap in try/catch
-        if (string.IsNullOrEmpty(albumid))
-        {
-            <div class="alert alert-info" role="alert">
-                No product selected. Return to search for another album
-
-                <a href="~/ExercisePages/Exercise04_AlbumSearch.cshtml">go to search...</a>
-            </div>
-        }
-        else
-        {
         if (Validation.IsValid())
         {
 
@@ -151,40 +161,40 @@
                                     + "ReleaseYear = @2, "
                                     + "ReleaseLabel = @3 "
                                     + "WHERE AlbumId = @4";
-                    //the placeholders expect a value not to be confused
-                    // with a character string
-                    //the null (as a value) is NOT equal to "null" which is a string
-                    int results = db.Execute(updatecommmand, albumtitle,
-                        artistid == "" ? null : artistid,
-                        string.IsNullOrEmpty(releaseyear) ? null : releaseyear,
-                        string.IsNullOrEmpty(releaselabel) ? null : releaselabel,
-                        albumid);
-                    if (results > 0)
-                    {
-<div class="alert alert-success" role="alert">
-    Album successfully updated!
-    </div>
-}
-else
-{
-    <p>
-        <span style="color:blue">
-            Update failed. No product called @albumtitle with an id of @albumid on file.
-        </span>
-    </p>
-}
-}
-catch (Exception ex)
-{
-< p >
-        < span style = "color:blue" >
-             Deleted failed.Error @ex.Message
-            </ span >
+                //the placeholders expect a value not to be confused
+                // with a character string
+                //the null (as a value) is NOT equal to "null" which is a string
+                int results = db.Execute(updatecommmand, albumtitle,
+                    artistid == "" ? null : artistid,
+                    string.IsNullOrEmpty(releaseyear) ? null : releaseyear,
+                    string.IsNullOrEmpty(releaselabel) ? null : releaselabel,
+                    albumid);
+                if (results > 0)
+                {
+                    <div class="alert alert-success" role="alert">
+                        Album successfully updated!
+                    </div>
+                }
+                else
+                {
+                    <p>
+                        <span style="color:blue">
+                            Update failed. No album called @albumtitle with an id of @albumid on file.
+                        </span>
+                    </p>
+                }
+            }
+            catch (Exception ex)
+            {
+                < p >
+                < span style = "color:blue" >
+                Deleted failed.Error @ex.Message
+                </ span >
 
-            </ p >
+                </ p >
+            }
         }
     }
-}
 }
 }
 else //for IsPost
@@ -207,10 +217,6 @@ releaseyear = queryAlbums.ReleaseYear.ToString();
 releaselabel = queryAlbums.ReleaseLabel.ToString() == null ? "" : queryAlbums.ReleaseLabel.ToString();
 
 }
-
-<div>
-    <div class="row">
-        <div class="col-xs-6">
             <form class="form-horizontal" id="theForm" action="" method="post">
                 <div class="form-group">
                     <label class="col-xs-2" id="forAlbumID">Album ID</label>
@@ -263,11 +269,12 @@ releaselabel = queryAlbums.ReleaseLabel.ToString() == null ? "" : queryAlbums.Re
                     <div class="col-sm-11 text-center">
                         <button type="submit" name="theButton" id="theUpdate" class="btn btn-primary" value="update">Update</button>&nbsp;&nbsp;&nbsp;
                         <button type="submit" name="theButton" id="theDelete" class="btn btn-primary" value="delete" formnovalidate>Delete</button>&nbsp;&nbsp;&nbsp;
+                        <button type="submit" name="theButton" id="theReset" class="btn btn-primary" value="reset" formnovalidate>Reset</button>&nbsp;&nbsp;&nbsp;
                         <button type="submit" name="theButton" id="theCancel" class="btn btn-primary" value="cancel" formnovalidate>Cancel</button>
                     </div>
                 </div>
                 @* this javascript will allow for a confirmation dialog to appear
-                    when a particular button is pressed (theDelete) *@
+            when a particular button is pressed (theDelete) *@
                 <script type="text/javascript">
                 document.getElementById("theDelete").onclick = ConfirmDelete;
                 function ConfirmDelete() {
@@ -276,5 +283,5 @@ releaselabel = queryAlbums.ReleaseLabel.ToString() == null ? "" : queryAlbums.Re
                 </script>
             </form>
         </div>
-    </div>
-</div>
+                </div>
+            </div>

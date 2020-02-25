@@ -32,114 +32,114 @@
     <span style="font-size:xx-large"><strong>Exercise03: Database Data Entry</strong></span>
 }
 
-@if (IsPost)
-{
-
-    if (formbutton.Equals("reset"))
-    {
-        <p class="col-sm-11 text-center">Cleared by user</p>
-        albumtitle = "";
-        albumartist = "";
-        albumyear = "";
-        albumlabel = "";
-    }
-    else
-    {
-        //collect data from input text boxes
-        albumtitle = Request.Form["AlbumTitle"];
-        albumartist = Request.Form["AlbumArtist"];
-        albumyear = Request.Form["AlbumYear"];
-        albumlabel = Request.Form["AlbumLabel"];
-
-        if (Validation.IsValid())
-        {
-            try
+<div>
+    <div class="row">
+        <div class="col-xs-6">
+            @if (IsPost)
             {
-                var db1 = Database.Open("CHINOOKDB");
 
-                var insertcommand = "INSERT INTO Albums  (Title, ArtistId, ReleaseYear, ReleaseLabel) "
-                                + "VALUES(@0, @1, @2, @3)";
+                if (formbutton.Equals("reset"))
+                {
+                    albumtitle = "";
+                    albumartist = "";
+                    albumyear = "";
+                    albumlabel = "";
+                }
+                else
+                {
+                    //collect data from input text boxes
+                    albumtitle = Request.Form["AlbumTitle"];
+                    albumartist = Request.Form["AlbumArtist"];
+                    albumyear = Request.Form["AlbumYear"];
+                    albumlabel = Request.Form["AlbumLabel"];
 
-                db1.Execute(insertcommand,
-                     string.IsNullOrEmpty(albumtitle) ? null : albumtitle,
-                     string.IsNullOrEmpty(albumartist) ? null : albumartist,
-                     string.IsNullOrEmpty(albumyear) ? null : albumyear,
-                     string.IsNullOrEmpty(albumlabel) ? null : albumlabel);
+                    if (Validation.IsValid())
+                    {
+                        try
+                        {
+                            var db1 = Database.Open("CHINOOKDB");
 
-                <div class="alert alert-success">
-                    New album added
-                </div>
-            }
-            catch (Exception ex)
-            {
-                <div class="alert alert-danger">
-                    @ex.Message
-                </div>
-                    }
-                    }
+                            var insertcommand = "INSERT INTO Albums  (Title, ArtistId, ReleaseYear, ReleaseLabel) "
+                                            + "VALUES(@0, @1, @2, @3)";
 
+                            db1.Execute(insertcommand,
+                                 string.IsNullOrEmpty(albumtitle) ? null : albumtitle,
+                                 string.IsNullOrEmpty(albumartist) ? null : albumartist,
+                                 string.IsNullOrEmpty(albumyear) ? null : albumyear,
+                                 string.IsNullOrEmpty(albumlabel) ? null : albumlabel);
 
-                    }
-
-                    }
-                    <div>
-                        <div class="row">
-                            <div class="col-xs-6">
-                                <form class="form-horizontal" id="theForm" action="" method="post">
-                                    <div class="form-group">
-                                        <label class="col-xs-2" id="forTitle">Title:</label>
-                                        <div class="col-xs-10">
-                                            <input class="input-validation-error form-control" type="text" name="AlbumTitle" id="AlbumTitle" value="@albumtitle" placeholder="title" />
-                                            <span class="text-danger">@Html.ValidationMessage("AlbumTitle")</span>
-                                        </div>
-
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-xs-2" id="forArtist">Artist:</label>
-                                        <div class="col-xs-10">
-                                            <select class="form-control" id="AlbumArtist" name="AlbumArtist" value="@albumartist">
-                                                <option value="">Select Artist...</option>
-                                                @foreach (var item in artistlist)
-                                                {
-                                                    if (albumartist.Equals(item[0].ToString()))
-                                                    {
-                                                        <option value="@item[0]" selected>@item.Name</option>
-                                                    }
-                                                    else
-                                                    {
-                                                        <option value="@item[0]">@item.Name</option>
-                                                    }
-                                                }
-                                            </select>
-                                            <span class="text-danger">@Html.ValidationMessage("AlbumArtist")</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-xs-2" id="forYear">Year:</label>
-                                        <div class="col-xs-10">
-                                            <input class="input-validation-error form-control" type="number" name="AlbumYear" id="AlbumYear" value="@albumyear" placeholder="year" />
-                                            <span class="text-danger">@Html.ValidationMessage("AlbumYear")</span>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="col-xs-2" id="forLabel">Label:</label>
-                                        <div class="col-xs-10">
-                                            <input class="input-validation-error form-control" type="text" name="AlbumLabel" id="AlbumLabel" value="@albumlabel" placeholder="label" />
-                                            <span class="text-danger">@Html.ValidationMessage("AlbumLabel")</span>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-sm-11 text-center">
-                                            <button type="submit" name="FormButton" value="submit" class="btn btn-primary" style="width:90px">
-                                                Add
-                                            </button>
-                                            &nbsp;&nbsp;
-                                            <button type="submit" name="FormButton" value="reset" class="btn" style="width:90px">
-                                                Clear
-                                            </button>
-                                        </div>
-                                    </div>
-                                </form>
+                            <div class="alert alert-success">
+                                New album successfully added!
                             </div>
-                        </div>
+                        }
+                        catch (Exception ex)
+                        {
+                            <div class="alert alert-danger">
+                                Error in adding album. <br />
+                                @ex.Message
+                            </div>
+                        }
+                    }
+
+
+                }
+            }
+
+            <form class="form-horizontal" id="theForm" action="" method="post">
+                <div class="form-group">
+                    <label class="col-xs-2" id="forTitle">Title:</label>
+                    <div class="col-xs-10">
+                        <input class="input-validation-error form-control" type="text" name="AlbumTitle" id="AlbumTitle" value="@albumtitle" placeholder="title" />
+                        <span class="text-danger">@Html.ValidationMessage("AlbumTitle")</span>
                     </div>
+
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2" id="forArtist">Artist:</label>
+                    <div class="col-xs-10">
+                        <select class="form-control" id="AlbumArtist" name="AlbumArtist" value="@albumartist">
+                            <option value="">Select Artist...</option>
+                            @foreach (var item in artistlist)
+                            {
+                                if (albumartist.Equals(item[0].ToString()))
+                                {
+                                    <option value="@item[0]" selected>@item.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@item[0]">@item.Name</option>
+                                }
+                            }
+                        </select>
+                        <span class="text-danger">@Html.ValidationMessage("AlbumArtist")</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2" id="forYear">Year:</label>
+                    <div class="col-xs-10">
+                        <input class="input-validation-error form-control" type="number" name="AlbumYear" id="AlbumYear" value="@albumyear" placeholder="year" />
+                        <span class="text-danger">@Html.ValidationMessage("AlbumYear")</span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="col-xs-2" id="forLabel">Label:</label>
+                    <div class="col-xs-10">
+                        <input class="input-validation-error form-control" type="text" name="AlbumLabel" id="AlbumLabel" value="@albumlabel" placeholder="label" />
+                        <span class="text-danger">@Html.ValidationMessage("AlbumLabel")</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-sm-11 text-center">
+                        <button type="submit" name="FormButton" value="submit" class="btn btn-primary" style="width:90px">
+                            Add
+                        </button>
+                        &nbsp;&nbsp;
+                        <button type="submit" name="FormButton" value="reset" class="btn" style="width:90px">
+                            Clear
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

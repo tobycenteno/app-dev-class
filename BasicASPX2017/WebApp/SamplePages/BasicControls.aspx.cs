@@ -65,12 +65,77 @@ namespace WebApp.SamplePages
 
         protected void SubmitButtonChoice_Click(object sender, EventArgs e)
         {
-            MessageLabel.Text = "you press the submit button";
+            //to grab the contents of a control will depend on the access
+            //  technique of that control
+            //for TextBox, Label, Literal use .Text
+            //for Lists (RadioButtonList, DropDownList) you may use
+            //   .SelectedValue, .SelectedIndex, .SelectItem
+            //for CheckBox use .Checked
+
+            //for the most part, all data from a control returns as a string
+            //except for boolean type controls
+
+            string submitchoice = TextBoxNumberChoice.Text;
+
+            if (string.IsNullOrEmpty(submitchoice))
+            {
+                MessageLabel.Text = "You did not enter a value in the textbox.";
+            }
+            else
+            {
+                //you can set the radiobuttonlist choice by either using
+                //  .SelectedValue or .SelectedIndex or SelectedItem
+                //it is best to use .SelectValue
+                RadioButtonListChoice.SelectedValue = submitchoice;
+
+                //place a check mark in the checkbox if the choosen
+                //course is a programming course
+                if (submitchoice.Equals("3") || submitchoice.Equals("4"))
+                {
+                    CheckBoxChoice.Checked = true;
+                }
+                else
+                {
+                    CheckBoxChoice.Checked = false;
+                }
+
+                //set the position in the DDL using .SelectedValue
+                CollectionList.SelectedValue = submitchoice;
+
+                //to set the contents of a label use .Text
+                //demonstrate the difference between SelectedValue, SelectedIndex
+                //  and SelectedItem
+                DisplayDataReadOnly.Text = CollectionList.SelectedItem.Text
+                            + " at index " + CollectionList.SelectedIndex
+                            + " having a value of " + CollectionList.SelectedValue;
+            }
+
         }
 
         protected void LinkButtonSubmitChoice_Click(object sender, EventArgs e)
         {
-            MessageLabel.Text = "you press the linkbutton button";
+            if (CollectionList.SelectedIndex == 0)
+            {
+                MessageLabel.Text = "Please select from the list before pressing thebutton.";
+        }
+            else
+            {
+                string submitchoice = CollectionList.SelectedValue;
+                TextBoxNumberChoice.Text = submitchoice;
+                RadioButtonListChoice.SelectedValue = submitchoice;
+                if (submitchoice.Equals("3") || submitchoice.Equals("4"))
+                {
+                    CheckBoxChoice.Checked = true;
+                }
+                else
+                {
+                    CheckBoxChoice.Checked = false;
+                }
+                DisplayDataReadOnly.Text = CollectionList.SelectedItem.Text
+                            + " at index " + CollectionList.SelectedIndex
+                            + " having a value of " + CollectionList.SelectedValue;
+            }
+
         }
     }
 }

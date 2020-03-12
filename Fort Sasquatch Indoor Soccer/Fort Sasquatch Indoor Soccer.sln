@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29209.62
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BigFootWebApp", "BigFootWebApp\BigFootWebApp.csproj", "{48E882AE-2A4D-4F9C-B32C-A7760814674F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FSISSystem.ACent", "FSISSystem.ACent\FSISSystem.ACent.csproj", "{6CF5C79F-3598-4573-A08E-44694DEA59EA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{48E882AE-2A4D-4F9C-B32C-A7760814674F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{48E882AE-2A4D-4F9C-B32C-A7760814674F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{48E882AE-2A4D-4F9C-B32C-A7760814674F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{48E882AE-2A4D-4F9C-B32C-A7760814674F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CF5C79F-3598-4573-A08E-44694DEA59EA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CF5C79F-3598-4573-A08E-44694DEA59EA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CF5C79F-3598-4573-A08E-44694DEA59EA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CF5C79F-3598-4573-A08E-44694DEA59EA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7D679831-EAB2-4BFB-B2A6-AA95173FEEF7}
+	EndGlobalSection
+EndGlobal

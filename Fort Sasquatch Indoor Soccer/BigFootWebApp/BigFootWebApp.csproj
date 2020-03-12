@@ -9,12 +9,12 @@
     <ProductVersion>
     </ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{FA7999CC-37DC-4822-9E32-A5675B5ACBFE}</ProjectGuid>
+    <ProjectGuid>{48E882AE-2A4D-4F9C-B32C-A7760814674F}</ProjectGuid>
     <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>WebApp</RootNamespace>
-    <AssemblyName>WebApp</AssemblyName>
+    <RootNamespace>BigFootWebApp</RootNamespace>
+    <AssemblyName>BigFootWebApp</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <UseIISExpress>true</UseIISExpress>
     <Use64BitIISExpress />
@@ -119,22 +119,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\brands.css" />
-    <Content Include="Content\brands.min.css" />
-    <Content Include="Content\fontawesome-all.css" />
-    <Content Include="Content\fontawesome-all.min.css" />
-    <Content Include="Content\fontawesome.css" />
-    <Content Include="Content\fontawesome.min.css" />
-    <Content Include="Content\regular.css" />
-    <Content Include="Content\regular.min.css" />
     <Content Include="Content\Site.css" />
-    <Content Include="Content\solid.css" />
-    <Content Include="Content\solid.min.css" />
-    <Content Include="Content\svg-with-js.css" />
-    <Content Include="Content\svg-with-js.min.css" />
-    <Content Include="Content\v4-shims.css" />
-    <Content Include="Content\v4-shims.min.css" />
     <Content Include="Default.aspx" />
+    <Content Include="ExercisePages\ExerciseHome.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -149,20 +136,6 @@
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\fontawesome\all.js" />
-    <Content Include="Scripts\fontawesome\all.min.js" />
-    <Content Include="Scripts\fontawesome\brands.js" />
-    <Content Include="Scripts\fontawesome\brands.min.js" />
-    <Content Include="Scripts\fontawesome\conflict-detection.js" />
-    <Content Include="Scripts\fontawesome\conflict-detection.min.js" />
-    <Content Include="Scripts\fontawesome\fontawesome.js" />
-    <Content Include="Scripts\fontawesome\fontawesome.min.js" />
-    <Content Include="Scripts\fontawesome\regular.js" />
-    <Content Include="Scripts\fontawesome\regular.min.js" />
-    <Content Include="Scripts\fontawesome\solid.js" />
-    <Content Include="Scripts\fontawesome\solid.min.js" />
-    <Content Include="Scripts\fontawesome\v4-shims.js" />
-    <Content Include="Scripts\fontawesome\v4-shims.min.js" />
     <Content Include="Scripts\jquery-3.3.1.js" />
     <Content Include="Scripts\jquery-3.3.1.min.js" />
     <Content Include="Scripts\jquery-3.3.1.slim.js" />
@@ -194,21 +167,6 @@
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
     <Content Include="Site.Mobile.Master" />
-    <Content Include="webfonts\fa-brands-400.svg" />
-    <Content Include="webfonts\fa-regular-400.svg" />
-    <Content Include="webfonts\fa-solid-900.svg" />
-    <Content Include="webfonts\fa-solid-900.woff2" />
-    <Content Include="webfonts\fa-solid-900.woff" />
-    <Content Include="webfonts\fa-solid-900.ttf" />
-    <Content Include="webfonts\fa-solid-900.eot" />
-    <Content Include="webfonts\fa-regular-400.woff2" />
-    <Content Include="webfonts\fa-regular-400.woff" />
-    <Content Include="webfonts\fa-regular-400.ttf" />
-    <Content Include="webfonts\fa-regular-400.eot" />
-    <Content Include="webfonts\fa-brands-400.woff2" />
-    <Content Include="webfonts\fa-brands-400.woff" />
-    <Content Include="webfonts\fa-brands-400.ttf" />
-    <Content Include="webfonts\fa-brands-400.eot" />
     <Content Include="WebConnectionStrings.config" />
   </ItemGroup>
   <ItemGroup>
@@ -234,6 +192,13 @@
     </Compile>
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ExercisePages\ExerciseHome.aspx.cs">
+      <DependentUpon>ExerciseHome.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ExercisePages\ExerciseHome.aspx.designer.cs">
+      <DependentUpon>ExerciseHome.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -276,9 +241,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\NorthWindSystem\NorthWindSystem.csproj">
-      <Project>{171ebb15-075a-410d-83b8-3af9dd91b8b1}</Project>
-      <Name>NorthWindSystem</Name>
+    <ProjectReference Include="..\FSISSystem.ACent\FSISSystem.ACent.csproj">
+      <Project>{6cf5c79f-3598-4573-a08e-44694dea59ea}</Project>
+      <Name>FSISSystem.ACent</Name>
     </ProjectReference>
   </ItemGroup>
   <PropertyGroup>
@@ -294,9 +259,9 @@
         <WebProjectProperties>
           <UseIIS>True</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
-          <DevelopmentServerPort>52093</DevelopmentServerPort>
+          <DevelopmentServerPort>51332</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:52093/</IISUrl>
+          <IISUrl>http://localhost:51332/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

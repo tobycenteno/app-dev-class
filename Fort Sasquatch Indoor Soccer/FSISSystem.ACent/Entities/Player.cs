@@ -30,7 +30,17 @@ namespace FSISSystem.ACent.Entities
             }
         }
         public string AlbertaHealthCareNumber { get; set; }
-        public string MedicalAlertDetails { get; set; }
+        public string MedicalAlertDetails {
+            get
+            {
+                return MedicalAlertDetails;
+            }
+            set
+            {
+                if(string.IsNullOrEmpty(MedicalAlertDetails))
+                    MedicalAlertDetails = null;
+            }
+        }
 
         [NotMapped]
         public string FullName

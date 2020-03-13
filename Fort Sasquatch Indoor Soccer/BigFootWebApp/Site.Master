@@ -37,7 +37,7 @@
                 <%--Site Scripts--%>
             </Scripts>
         </asp:ScriptManager>
-
+        <!--
         <div class="navbar navbar-inverse navbar-fixed-top">
             <div class="container">
                 <div class="navbar-header">
@@ -56,6 +56,51 @@
                         <li><a runat="server" href="~/ExercisePages/ExerciseHome.aspx">ExerciseHome</a></li>
                     </ul>
                 </div>
+            </div>
+        </div>
+        -->
+        <div class="container">
+            <div class="navbar navbar-inverse">
+                <nav class="navbar navbar-expand-md navbar-light fixed-top">
+                    <a class="navbar-brand" href="Default.aspx" runat="server">
+                        <strong>Antonio Centeno III</strong>
+                    </a>
+                <button class="navbar-toggler" type="button"
+                        data-toggle="collapse" data-target="#navbarMenuName"
+                        aria-controls="navbarMenuName" aria-expanded="false"
+                        aria-label="Toggle Navigation">
+               <span class="navbar-toggler-icon"></span>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarMenuName">
+                  <ul class="navbar-nav">
+                      <li class="nav-item">
+                          <a class="nav-link" href="~/Default.aspx"
+                                    style="color:black" runat="server">Home</a>
+                       </li>
+                       <li class="nav-item dropdown">
+                           <a class="nav-link dropdown-toggle" href="#"
+                                    id="navbarSubMenu" data-toggle="dropdown" 
+                                    runat="server" style="color:black"
+                                    aria-haspopup="true" aria-expanded="false"> 
+                                Exercises</a>
+                            <div class="dropdown-menu" aria-labelledby="navbarSubMenu">
+                                <a class="dropdown-item"
+                                        href="~/ExercisePages/ExerciseHome.aspx"
+                                        style="color:black" runat="server">
+                                   Exercise Home</a>
+                            </div>
+                         </li>
+                         <li class="nav-item">
+                             <a class="nav-link" href="~/Contact.aspx" runat="server"
+                                    style="color:black">Contact</a>
+                          </li>
+                          <li class="nav-item">
+                             <a class="nav-link" href="~/About.aspx" runat="server"
+                                    style="color:black">About</a>
+                           </li>
+                        </ul>
+                    </div>
+                </nav> 
             </div>
         </div>
         <div class="container body-content">

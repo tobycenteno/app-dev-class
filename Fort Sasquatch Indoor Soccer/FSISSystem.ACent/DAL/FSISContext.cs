@@ -11,7 +11,7 @@ namespace FSISSystem.ACent.DAL
 {
     internal class FSISContext:DbContext
     {
-        public FSISContext() : base("myconnectionstringname")
+        public FSISContext() : base("FSIS_db")
         {
 
         }

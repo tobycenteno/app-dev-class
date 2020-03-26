@@ -88,6 +88,10 @@
                                         href="~/ExercisePages/ExerciseHome.aspx"
                                         style="color:black" runat="server">
                                    Exercise Home</a>
+                                <a class="dropdown-item"
+                                        href="~/ExercisePages/MultipleRecordQuery.aspx"
+                                        style="color:black" runat="server">
+                                   Multiple Record Query</a>
                             </div>
                          </li>
                          <li class="nav-item">

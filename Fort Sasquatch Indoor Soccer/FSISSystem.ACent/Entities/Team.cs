@@ -17,8 +17,8 @@ namespace FSISSystem.ACent.Entities
         public string TeamName { get; set; }
         public string Coach { get; set; }
         public string AssistantCoach { get; set; }
-        public int Wins { get; set; }
-        public int Losses { get; set; }
+        public int? Wins { get; set; }
+        public int? Losses { get; set; }
 
     }
 }

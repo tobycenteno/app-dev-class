@@ -12,6 +12,9 @@ namespace FSISSystem.ACent.Entities
     [Table("Team")]
     public class Team
     {
+        private int _wins;
+        private int _losses;
+
         [Key]
         public int TeamID { get; set; }
         public string TeamName { get; set; }

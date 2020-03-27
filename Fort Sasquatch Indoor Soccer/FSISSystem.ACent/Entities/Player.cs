@@ -12,8 +12,8 @@ namespace FSISSystem.ACent.Entities
     [Table("Player")]
     public class Player
     {
-        string _medalertdetails;
-        public string _gender;
+        private string _medalertdetails;
+        private string _gender;
 
         [Key]
         public int PlayerID { get; set; }
@@ -22,7 +22,7 @@ namespace FSISSystem.ACent.Entities
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public int Age { get; set; }
-        //public string Gender { get; set; }
+
         public string Gender {
             
             get
@@ -31,11 +31,11 @@ namespace FSISSystem.ACent.Entities
             }
             set
             {
-                _gender = value;
+                _gender = value.ToUpper();
             }
         } 
         public string AlbertaHealthCareNumber { get; set; }
-       // public string MedicalAlertDetails { get; set; }
+
         public string MedicalAlertDetails {
             get
             {

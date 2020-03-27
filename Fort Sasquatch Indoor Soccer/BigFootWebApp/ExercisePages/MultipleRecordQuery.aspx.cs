@@ -35,9 +35,10 @@ namespace BigFootWebApp.ExercisePages
                 TeamList.DataTextField = nameof(Team.TeamName);
                 TeamList.DataValueField = nameof(Team.TeamID);
                 TeamList.DataBind();
-                TeamList.Items.Insert(0,"Select...");
+                TeamList.Items.Insert(0, "Select...");
 
-            } catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 MessageLabel.Text = ex.Message;
             }
@@ -71,8 +72,8 @@ namespace BigFootWebApp.ExercisePages
                     {
                         Coach.Text = teamInfo.Coach;
                         AssistantCoach.Text = teamInfo.AssistantCoach;
-                        Wins.Text = teamInfo.Wins.ToString();
-                        Losses.Text = teamInfo.Losses.ToString();
+                        Wins.Text = teamInfo.Wins.ToString() == "" ? "0" : teamInfo.Wins.ToString();
+                        Losses.Text = teamInfo.Losses.ToString() == "" ? "0" : teamInfo.Losses.ToString();
                     }
 
                     PlayerController playerMgr = new PlayerController();
@@ -91,6 +92,13 @@ namespace BigFootWebApp.ExercisePages
                     MessageLabel.Text = ex.Message;
                 }
             }
+        }
+
+        protected void TeamRoster_PageIndexChanging(object sender, GridViewPageEventArgs e)
+        {
+            TeamRoster.PageIndex = e.NewPageIndex;
+
+            Search_Click(sender, new EventArgs());
         }
     }
 }

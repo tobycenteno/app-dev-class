@@ -125,6 +125,7 @@
     <Content Include="Default.aspx" />
     <Content Include="ExercisePages\ExerciseHome.aspx" />
     <Content Include="ExercisePages\MultipleRecordQuery.aspx" />
+    <Content Include="ExercisePages\MultiRecordODS.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\bootstrap.bundle.js" />
@@ -292,6 +293,13 @@
     </Compile>
     <Compile Include="ExercisePages\MultipleRecordQuery.aspx.designer.cs">
       <DependentUpon>MultipleRecordQuery.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ExercisePages\MultiRecordODS.aspx.cs">
+      <DependentUpon>MultiRecordODS.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ExercisePages\MultiRecordODS.aspx.designer.cs">
+      <DependentUpon>MultiRecordODS.aspx</DependentUpon>
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>

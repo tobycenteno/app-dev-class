@@ -7,6 +7,7 @@ using System.Data.SqlClient;
 
 using FSISSystem.ACent.DAL;
 using FSISSystem.ACent.Entities;
+using System.ComponentModel;
 
 namespace FSISSystem.ACent.BLL
 {

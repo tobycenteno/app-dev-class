@@ -101,6 +101,10 @@
                                         href="~/ExercisePages/MultipleRecordQuery.aspx"
                                         style="color:black" runat="server">
                                    Multiple Record Query</a>
+                                <a class="dropdown-item"
+                                        href="~/ExercisePages/MultiRecordODS.aspx"
+                                        style="color:black" runat="server">
+                                   Multiple Record Query with ODS</a>
                             </div>
                          </li>
                          <li class="nav-item">

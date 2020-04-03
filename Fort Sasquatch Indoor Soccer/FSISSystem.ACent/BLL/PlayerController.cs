@@ -7,9 +7,11 @@ using System.Data.SqlClient;
 
 using FSISSystem.ACent.DAL;
 using FSISSystem.ACent.Entities;
+using System.ComponentModel;
 
 namespace FSISSystem.ACent.BLL
 {
+    [DataObject]
     public class PlayerController
     {
         public List<Player> Player_GetByTeam(int teamid)
@@ -17,7 +19,19 @@ namespace FSISSystem.ACent.BLL
             using (var context = new FSISContext())
             {
                 IEnumerable<Player> results =
-                    context.Database.SqlQuery<Player>("SELECT PlayerID, GuardianID, TeamID, FirstName, LastName, Age, Gender, AlbertaHealthCareNumber, MedicalAlertDetails from Player WHERE TeamID=@TeamID", new SqlParameter("TeamID", teamid));
+                    context.Database.SqlQuery<Player>("Player_GetByTeam @TeamID", new SqlParameter("TeamID", teamid));
+
+                return results.ToList();
+            }
+        }
+
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<Player> Player_GetByAgeGender(int age, string gender)
+        {
+            using (var context = new FSISContext())
+            {
+                IEnumerable<Player> results =
+                    context.Database.SqlQuery<Player>("Player_GetByAgeGender @Age, @Gender", new SqlParameter("Age", age), new SqlParameter("Gender", gender));
 
                 return results.ToList();
             }

@@ -13,5 +13,10 @@ namespace StarTEDWebApp.Forms
         {
 
         }
+
+        protected void FindRentalsByMonthlyRange_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

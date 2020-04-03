@@ -13,5 +13,15 @@ namespace StarTEDWebApp.Forms
         {
 
         }
+
+        protected void FindAddressesByLandLord_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        protected void FindRentalsByLandLord_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

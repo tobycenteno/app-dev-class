@@ -5,8 +5,8 @@
     <br />
     <h5>Form Description</h5>
     <ul>
-        <li>CRUD.aspx</li>
-        <li>Query.aspx</li>
+        <li>CRUD.aspx - this form will be used to search and maintain rentals</li>
+        <li>Query.aspx - this form will be used to search rentals by monthly rate range</li>
     </ul>
     <br />
     <h5>Known Bugs</h5>
@@ -18,6 +18,8 @@
     <h6>Entities</h6>
     <asp:Image ID="EntitiesClassDiagram" runat="server" ImageUrl="images/class-diagram-entities.jpg" />
     <h6>BLL</h6>
+    <asp:Image ID="Image1" runat="server" ImageUrl="images/class-diagram-bll.jpg" />
+    <br />
     <br />
     <h5>Stored Procedures</h5>
     <ul>

@@ -66,12 +66,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\StarTEDWebApp\StarTEDWebApp.csproj">
-      <Project>{8a74eb6e-590f-40a1-aa34-45d383650f38}</Project>
-      <Name>StarTEDWebApp</Name>
-    </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>

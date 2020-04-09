@@ -7,10 +7,20 @@ using System.Data.SqlClient;
 
 using StarTEDSystem.DAL;
 using StarTEDSystem.Entities;
+using System.ComponentModel;
 
 namespace StarTEDSystem.BLL
 {
+    [DataObject(true)]
     public class AddressesController
     {
+        [DataObjectMethod(DataObjectMethodType.Select, false)]
+        public List<Addresses> Team_List()
+        {
+            using (var context = new StarTEDContext())
+            {
+                return context.Addresses.ToList();
+            }
+        }
     }
 }

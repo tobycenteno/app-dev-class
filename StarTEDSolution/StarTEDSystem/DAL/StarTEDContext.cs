@@ -11,7 +11,7 @@ namespace StarTEDSystem.DAL
 {
     internal class StarTEDContext : DbContext
     {
-        public StarTEDContext() : base("StarTED")
+        public StarTEDContext() : base("StarTED_db")
         {
 
         }

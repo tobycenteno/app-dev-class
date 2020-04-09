@@ -23,8 +23,7 @@ namespace StarTEDSystem.Entities
         public string PostalCodeZip { get; set; }
         public string CountryCode { get; set; }
 
-        [ForeignKey("PropertyOwners")]
-        public int LandLordID { get; set; }
+        public int? LandLordID { get; set; }
 
         [NotMapped]
         public string FullAddress

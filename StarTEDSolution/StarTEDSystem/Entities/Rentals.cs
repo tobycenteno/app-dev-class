@@ -15,11 +15,11 @@ namespace StarTEDSystem.Entities
         [Key]
         public int RentalID { get; set; }
         public int AddressID { get; set; }
-        public int RentalTypeID { get; set; }
+        public int? RentalTypeID { get; set; }
         public decimal MonthlyRent { get; set; }
         public byte Vacancies { get; set; }
         public byte MaxVacancy { get; set; }
         public decimal DamageDeposit { get; set; }
-        public DateTime AvailableDate { get; set; }
+        public DateTime? AvailableDate { get; set; }
     }
 }

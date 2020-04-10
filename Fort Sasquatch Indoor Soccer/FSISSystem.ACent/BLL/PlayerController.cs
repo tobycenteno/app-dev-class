@@ -14,6 +14,30 @@ namespace FSISSystem.ACent.BLL
     [DataObject]
     public class PlayerController
     {
+        public List<Player> Player_List()
+        {
+            using (var context = new FSISContext())
+            {
+                return context.Players.ToList();
+            }
+        }
+        public Player Player_Find(int playerid)
+        {
+            using (var context = new FSISContext())
+            {
+                return context.Players.Find(playerid);
+            }
+        }
+
+        public int Player_Add(Player player)
+        {
+            using (var context = new FSISContext())
+            {
+                context.Players.Add(player);
+                context.SaveChanges();
+                return player.PlayerID;
+            }
+        }
         public List<Player> Player_GetByTeam(int teamid)
         {
             using (var context = new FSISContext())

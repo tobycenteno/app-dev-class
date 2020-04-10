@@ -105,6 +105,10 @@
                                         href="~/ExercisePages/MultiRecordODS.aspx"
                                         style="color:black" runat="server">
                                    Multiple Record Query with ODS</a>
+                                 <a class="dropdown-item"
+                                        href="~/ExercisePages/CRUDInsert.aspx"
+                                        style="color:black" runat="server">
+                                   CRUD - Insert</a>
                             </div>
                          </li>
                          <li class="nav-item">

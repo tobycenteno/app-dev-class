@@ -15,7 +15,7 @@ namespace StarTEDSystem.BLL
     public class RentalTypesController
     {
         [DataObjectMethod(DataObjectMethodType.Select, false)]
-        public List<RentalTypes> Team_List()
+        public List<RentalTypes> RentalType_List()
         {
             using (var context = new StarTEDContext())
             {

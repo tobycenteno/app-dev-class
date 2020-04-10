@@ -15,7 +15,7 @@ namespace StarTEDSystem.BLL
     public class AddressesController
     {
         [DataObjectMethod(DataObjectMethodType.Select, false)]
-        public List<Addresses> Team_List()
+        public List<Addresses> Address_List()
         {
             using (var context = new StarTEDContext())
             {

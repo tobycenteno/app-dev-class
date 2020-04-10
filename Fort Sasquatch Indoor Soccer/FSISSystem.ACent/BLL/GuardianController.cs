@@ -13,5 +13,12 @@ namespace FSISSystem.ACent.BLL
 {
     public class GuardianController
     {
+        public List<Guardian> Guardian_List()
+        {
+            using (var context = new FSISContext())
+            {
+                return context.Guardians.ToList();
+            }
+        }
     }
 }

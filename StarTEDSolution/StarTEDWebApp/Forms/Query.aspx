@@ -23,8 +23,8 @@
                             <asp:ControlParameter ControlID="MaxRange" DefaultValue="0" Name="max" PropertyName="Text" Type="Double" />
                         </SelectParameters>
                     </asp:ObjectDataSource>
-                    <asp:ObjectDataSource ID="AddressesDataSource" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="Team_List" TypeName="StarTEDSystem.BLL.AddressesController"></asp:ObjectDataSource>
-                    <asp:ObjectDataSource ID="RentalTypesDataSource" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="Team_List" TypeName="StarTEDSystem.BLL.RentalTypesController"></asp:ObjectDataSource>
+                    <asp:ObjectDataSource ID="AddressesDataSource" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="Address_List" TypeName="StarTEDSystem.BLL.AddressesController"></asp:ObjectDataSource>
+                    <asp:ObjectDataSource ID="RentalTypesDataSource" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="RentalType_List" TypeName="StarTEDSystem.BLL.RentalTypesController"></asp:ObjectDataSource>
                 </div>
             </div>
         </div>
@@ -35,11 +35,11 @@
                     </asp:DataList>
         <br />
         <br />
-  <asp:GridView ID="RentalsGridView" runat="server" OnDataBound="RentalsGridView_DataBound" AllowPaging="True" AutoGenerateColumns="False" BorderStyle="None" CssClass="table table-striped" DataSourceID="RentalsDataSource" GridLines="None" PageSize="25">
+  <asp:GridView ID="RentalsGridView" runat="server" OnDataBound="RentalsGridView_DataBound" AllowPaging="True" AutoGenerateColumns="False" BorderStyle="None" CssClass="table table-striped" DataSourceID="RentalsDataSource" GridLines="None" PageSize="20">
                         <Columns>
                             <asp:TemplateField HeaderText="ID" SortExpression="RentalID" Visible="False">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label8" runat="server" Text='<%# Bind("RentalID") %>'></asp:Label>
+                                    <asp:Label ID="Label8" runat="server" Text='<%# Eval("RentalID") %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Address" SortExpression="AddressID">
@@ -77,7 +77,7 @@
                             </asp:TemplateField>
                             <asp:TemplateField HeaderText="Available Date" SortExpression="AvailableDate">
                                 <ItemTemplate>
-                                    <asp:Label ID="Label7" runat="server" Text='<%# Eval("AvailableDate") %>'></asp:Label>
+                                    <asp:Label ID="Label7" runat="server" Text='<%# string.Format("{0:MMMM d, yyyy}",Eval("AvailableDate")) %>'></asp:Label>
                                 </ItemTemplate>
                             </asp:TemplateField>
                         </Columns>

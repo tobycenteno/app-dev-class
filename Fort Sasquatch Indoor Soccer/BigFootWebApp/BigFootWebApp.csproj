@@ -123,7 +123,7 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\Site.css" />
     <Content Include="Default.aspx" />
-    <Content Include="ExercisePages\CRUDInsert.aspx" />
+    <Content Include="ExercisePages\CRUD.aspx" />
     <Content Include="ExercisePages\ExerciseHome.aspx" />
     <Content Include="ExercisePages\MultipleRecordQuery.aspx" />
     <Content Include="ExercisePages\MultiRecordODS.aspx" />
@@ -281,12 +281,12 @@
     <Compile Include="Default.aspx.designer.cs">
       <DependentUpon>Default.aspx</DependentUpon>
     </Compile>
-    <Compile Include="ExercisePages\CRUDInsert.aspx.cs">
-      <DependentUpon>CRUDInsert.aspx</DependentUpon>
+    <Compile Include="ExercisePages\CRUD.aspx.cs">
+      <DependentUpon>CRUD.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="ExercisePages\CRUDInsert.aspx.designer.cs">
-      <DependentUpon>CRUDInsert.aspx</DependentUpon>
+    <Compile Include="ExercisePages\CRUD.aspx.designer.cs">
+      <DependentUpon>CRUD.aspx</DependentUpon>
     </Compile>
     <Compile Include="ExercisePages\ExerciseHome.aspx.cs">
       <DependentUpon>ExerciseHome.aspx</DependentUpon>

@@ -60,5 +60,25 @@ namespace FSISSystem.ACent.BLL
                 return results.ToList();
             }
         }
+
+        public int Player_Update(Player player)
+        {
+            using (var context = new FSISContext())
+            {
+                context.Entry(player).State = System.Data.Entity.EntityState.Modified;
+                return context.SaveChanges();
+            }
+
+        }
+
+        public int Player_Delete(int playerid)
+        {
+            using (var context = new FSISContext())
+            {
+                var existing = context.Players.Find(playerid);
+                context.Players.Remove(existing);
+                return context.SaveChanges();
+            }
+        }
     }
 }

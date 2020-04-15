@@ -1,7 +1,7 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CRUDInsert.aspx.cs" Inherits="BigFootWebApp.ExercisePages.CRUDInsert" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Site.Master" AutoEventWireup="true" CodeBehind="CRUD.aspx.cs" Inherits="BigFootWebApp.ExercisePages.CRUDInsert" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="MainContent" runat="server">
    <div class="page-header">
-        <h1>CRUD - Insert</h1>
+        <h1>CRUD</h1>
     </div>
 
     <%-- validations --%>
@@ -41,7 +41,8 @@
         <asp:Button ID="Search" runat="server" CausesValidation="false"  OnClick="Search_Click" Font-Size="Medium" Text="Search"  />&nbsp;&nbsp;
         <asp:Button ID="Clear" runat="server" CausesValidation="false" OnClick="Clear_Click" Font-Size="Medium" Text="Clear"  />&nbsp;&nbsp;
         <asp:Button ID="AddPlayer" runat="server" OnClick="AddPlayer_Click" Font-Size="Medium" Text="Add"  />&nbsp;&nbsp;
-         
+        <asp:Button ID="UpdatePlayer" runat="server" OnClick="UpdatePlayer_Click" Font-Size="Medium" Text="Update"  />&nbsp;&nbsp;
+        <asp:Button ID="DeletePlayer" runat="server"  OnClientClick="return confirm('Are you sure you wish to delete this player?')" OnClick="DeletePlayer_Click" Font-Size="Medium" Text="Delete"  CausesValidation="false" />&nbsp;&nbsp;
         <br /><br />
         
         <asp:DataList ID="Message" runat="server">
@@ -80,4 +81,13 @@
             <asp:TextBox ID="MedicalAlertDetails" runat="server" ></asp:TextBox><br />
         </div>
     </div>
+    <script type=”text/javascript”>
+    function confirmDelete() {
+        if(confirm(“Are you sure you want to submit the page?”)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+</script>
 </asp:Content>

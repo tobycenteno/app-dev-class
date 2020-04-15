@@ -123,6 +123,24 @@ namespace BigFootWebApp.ExercisePages
         protected global::System.Web.UI.WebControls.Button AddPlayer;
 
         /// <summary>
+        /// UpdatePlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button UpdatePlayer;
+
+        /// <summary>
+        /// DeletePlayer control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button DeletePlayer;
+
+        /// <summary>
         /// Message control.
         /// </summary>
         /// <remarks>

@@ -267,5 +267,204 @@ namespace BigFootWebApp.ExercisePages
                 }
             }
         }
+
+        protected void UpdatePlayer_Click(object sender, EventArgs e)
+        {
+            if (Page.IsValid)
+            {
+                if (GuardianList.SelectedIndex == 0)
+                {
+                    errormsgs.Add("Guardian is required");
+                }
+
+                if (TeamList.SelectedIndex == 0)
+                {
+                    errormsgs.Add("Team is required");
+                }
+
+                if (Gender.SelectedItem == null)
+                {
+                    errormsgs.Add("Gender is required");
+                }
+
+                int playerid = 0;
+                if (string.IsNullOrEmpty(PlayerID.Text))
+                {
+                    errormsgs.Add("Search for a player to update");
+                }
+                else if (!int.TryParse(PlayerID.Text, out playerid))
+                {
+                    errormsgs.Add("Player ID is invalid");
+                }
+                else if (playerid < 1)
+                {
+                    errormsgs.Add("Product ID is invalid");
+                }
+
+                if (errormsgs.Count > 0)
+                {
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                else
+                {
+                    try
+                    {
+                        PlayerController sysmgr = new PlayerController();
+                        Player player = new Player();
+
+                        player.PlayerID = playerid;
+                        player.GuardianID = int.Parse(GuardianList.SelectedValue);
+                        player.TeamID = int.Parse(TeamList.SelectedValue);
+                        player.FirstName = FirstName.Text.Trim();
+                        player.LastName = LastName.Text.Trim();
+                        player.Age = int.Parse(Age.Text.Trim());
+                        player.Gender = Gender.SelectedValue;
+                        player.AlbertaHealthCareNumber = AlbertaHealthCareNumber.Text.Trim();
+
+                        if (string.IsNullOrEmpty(MedicalAlertDetails.Text))
+                        {
+                            player.MedicalAlertDetails = null;
+                        }
+                        else
+                        {
+                            player.MedicalAlertDetails = MedicalAlertDetails.Text.Trim();
+                        }
+
+                        int rowsaffected = sysmgr.Player_Update(player);
+                        if (rowsaffected > 0)
+                        {
+
+                            errormsgs.Add("Player has been updated!");
+                            LoadMessageDisplay(errormsgs, "alert alert-success");
+                            BindPlayerList();
+                            PlayerList.SelectedValue = PlayerID.Text;
+                        }
+                        else
+                        {
+                            errormsgs.Add("Player has not been updated. Player was not found.");
+                            LoadMessageDisplay(errormsgs, "alert alert-info");
+                            BindPlayerList(); 
+                        }
+
+                    }
+                    catch (DbUpdateException ex)
+                    {
+                        UpdateException updateException = (UpdateException)ex.InnerException;
+                        if (updateException.InnerException != null)
+                        {
+                            errormsgs.Add(updateException.InnerException.Message.ToString());
+                        }
+                        else
+                        {
+                            errormsgs.Add(updateException.Message);
+                        }
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
+                    }
+                    catch (DbEntityValidationException ex)
+                    {
+                        foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                        {
+                            foreach (var validationError in entityValidationErrors.ValidationErrors)
+                            {
+                                errormsgs.Add(validationError.ErrorMessage);
+                            }
+                        }
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
+                    }
+                    catch (Exception ex)
+                    {
+                        errormsgs.Add(GetInnerException(ex).ToString());
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
+                    }
+                }
+            }
+        }
+
+        protected void DeletePlayer_Click(object sender, EventArgs e)
+        {
+            int playerid = 0;
+            if (string.IsNullOrEmpty(PlayerID.Text))
+            {
+                errormsgs.Add("Search for a player to delete");
+            }
+            else if (!int.TryParse(PlayerID.Text, out playerid))
+            {
+                errormsgs.Add("Player ID is invalid");
+            }
+            else if (playerid < 1)
+            {
+                errormsgs.Add("Product ID is invalid");
+            }
+
+
+            if (errormsgs.Count > 0)
+            {
+                LoadMessageDisplay(errormsgs, "alert alert-danger");
+            }
+            else
+            {
+                try
+                {
+                    PlayerController sysmgr = new PlayerController();
+
+                    int rowsaffected = sysmgr.Player_Delete(playerid);
+                    if (rowsaffected > 0)
+                    {
+
+                        errormsgs.Add("Player has been deleted");
+                        LoadMessageDisplay(errormsgs, "alert alert-success");
+                        BindPlayerList();
+
+                        PlayerID.Text = "";
+                        GuardianList.ClearSelection();
+                        TeamList.ClearSelection();
+                        FirstName.Text = "";
+                        LastName.Text = "";
+                        Age.Text = "";
+                        Gender.ClearSelection();
+                        AlbertaHealthCareNumber.Text = "";
+                        MedicalAlertDetails.Text = "";
+
+                        PlayerList.ClearSelection();
+                    }
+                    else
+                    {
+                        errormsgs.Add("Player has not been deleted. Player was not found.");
+                        LoadMessageDisplay(errormsgs, "alert alert-info");
+                        BindPlayerList();
+                    }
+
+                }
+                catch (DbUpdateException ex)
+                {
+                    UpdateException updateException = (UpdateException)ex.InnerException;
+                    if (updateException.InnerException != null)
+                    {
+                        errormsgs.Add(updateException.InnerException.Message.ToString());
+                    }
+                    else
+                    {
+                        errormsgs.Add(updateException.Message);
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (DbEntityValidationException ex)
+                {
+                    foreach (var entityValidationErrors in ex.EntityValidationErrors)
+                    {
+                        foreach (var validationError in entityValidationErrors.ValidationErrors)
+                        {
+                            errormsgs.Add(validationError.ErrorMessage);
+                        }
+                    }
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+                catch (Exception ex)
+                {
+                    errormsgs.Add(GetInnerException(ex).ToString());
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
+                }
+            }
+        }
     }
 }

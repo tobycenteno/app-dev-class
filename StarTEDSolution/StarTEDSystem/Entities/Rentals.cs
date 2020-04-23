@@ -19,7 +19,10 @@ namespace StarTEDSystem.Entities
         public decimal MonthlyRent { get; set; }
         public byte Vacancies { get; set; }
         public byte MaxVacancy { get; set; }
-        public decimal DamageDeposit { get; set; }
+        public decimal? DamageDeposit { get; set; }
         public DateTime? AvailableDate { get; set; }
+
+        [NotMapped]
+        public string AddressName { get; set; }
     }
 }

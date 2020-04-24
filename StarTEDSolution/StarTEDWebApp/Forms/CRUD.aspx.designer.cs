@@ -15,6 +15,15 @@ namespace StarTEDWebApp.Forms
     {
 
         /// <summary>
+        /// RequiredAddress control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredAddress;
+
+        /// <summary>
         /// RequiredMonthlyRent control.
         /// </summary>
         /// <remarks>
@@ -42,6 +51,42 @@ namespace StarTEDWebApp.Forms
         protected global::System.Web.UI.WebControls.RequiredFieldValidator RequiredMaxVacancy;
 
         /// <summary>
+        /// CompareMonthlyRent control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator CompareMonthlyRent;
+
+        /// <summary>
+        /// CompareMaxVacancy control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator CompareMaxVacancy;
+
+        /// <summary>
+        /// CompareDamageDeposit control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator CompareDamageDeposit;
+
+        /// <summary>
+        /// CompareVacancies control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.CompareValidator CompareVacancies;
+
+        /// <summary>
         /// ValidationSummary1 control.
         /// </summary>
         /// <remarks>
@@ -49,6 +94,15 @@ namespace StarTEDWebApp.Forms
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ValidationSummary ValidationSummary1;
+
+        /// <summary>
+        /// Message control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.DataList Message;
 
         /// <summary>
         /// Label5 control.
@@ -175,15 +229,6 @@ namespace StarTEDWebApp.Forms
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.ObjectDataSource RentalTypeDataSource;
-
-        /// <summary>
-        /// Message control.
-        /// </summary>
-        /// <remarks>
-        /// Auto-generated field.
-        /// To modify move field declaration from designer file to code-behind file.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.DataList Message;
 
         /// <summary>
         /// Label12 control.
@@ -345,7 +390,7 @@ namespace StarTEDWebApp.Forms
         /// Auto-generated field.
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label SelectedAddress;
+        protected global::System.Web.UI.WebControls.TextBox SelectedAddress;
 
         /// <summary>
         /// AddressID control.
@@ -355,6 +400,15 @@ namespace StarTEDWebApp.Forms
         /// To modify move field declaration from designer file to code-behind file.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Label AddressID;
+
+        /// <summary>
+        /// ClearAddress control.
+        /// </summary>
+        /// <remarks>
+        /// Auto-generated field.
+        /// To modify move field declaration from designer file to code-behind file.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button ClearAddress;
 
         /// <summary>
         /// RentalTypeList control.

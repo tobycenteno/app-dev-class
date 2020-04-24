@@ -6,6 +6,9 @@
     <hr />
     <br />
 
+    <asp:RequiredFieldValidator ID="RequiredAddress" runat="server"
+        ErrorMessage="Address is required" Display="None" SetFocusOnError="true" ForeColor="Firebrick"
+         ControlToValidate="SelectedAddress"> </asp:RequiredFieldValidator>
     <asp:RequiredFieldValidator ID="RequiredMonthlyRent" runat="server"
         ErrorMessage="Monthly Rent is required" Display="None" SetFocusOnError="true" ForeColor="Firebrick"
          ControlToValidate="MonthlyRent"> </asp:RequiredFieldValidator>
@@ -15,10 +18,25 @@
     <asp:RequiredFieldValidator ID="RequiredMaxVacancy" runat="server"
         ErrorMessage="Maximum Vacancy is required" Display="None" SetFocusOnError="true" ForeColor="Firebrick"
          ControlToValidate="MaxVacancy"> </asp:RequiredFieldValidator>
+    
+    
+    <asp:CompareValidator ID="CompareMonthlyRent" runat="server" ErrorMessage="Monthly Rent should be greater than 0." ForeColor="Firebrick"
+        Operator="GreaterThan" ValueToCompare="0" ControlToValidate="MonthlyRent" Display="None"></asp:CompareValidator>
+    <asp:CompareValidator ID="CompareMaxVacancy" runat="server" ErrorMessage="Max Vacancy should be greater than 0." ForeColor="Firebrick"
+        Operator="GreaterThan" ValueToCompare="0" ControlToValidate="MaxVacancy" Display="None"></asp:CompareValidator>
+    <asp:CompareValidator ID="CompareDamageDeposit" runat="server" ErrorMessage="Damage deposit should be greater than 0." ForeColor="Firebrick"
+        Operator="GreaterThan" ValueToCompare="0" ControlToValidate="DamageDeposit" Display="None"></asp:CompareValidator>
+
+    <asp:CompareValidator ID="CompareVacancies" runat="server" ErrorMessage="Vacancies should be equal or greater than 0." ForeColor="Firebrick"
+        Operator="GreaterThanEqual" ValueToCompare="0" ControlToValidate="Vacancies" Display="None"></asp:CompareValidator>
 
     <asp:ValidationSummary ID="ValidationSummary1" runat="server" 
-         HeaderText="Address the following concerns with your entered data."/>
-
+         HeaderText="Address the following concerns with your entered data." CssClass="alert alert-danger"/>
+    <asp:DataList ID="Message" runat="server">
+                <ItemTemplate>
+                    <%# Container.DataItem %>
+                </ItemTemplate>
+             </asp:DataList>
     <div class="col-md-12"> 
         <asp:Label ID="Label5" runat="server" Text="Search Rentals: "></asp:Label><br /><br />
         <asp:Label ID="Label3" runat="server" Text="LandLords:"></asp:Label>&nbsp;&nbsp;
@@ -38,11 +56,7 @@
         <asp:ObjectDataSource ID="AddressDataSource" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="Address_List" TypeName="StarTEDSystem.BLL.AddressesController"></asp:ObjectDataSource>
         <asp:ObjectDataSource ID="RentalTypeDataSource" runat="server" OldValuesParameterFormatString="original_{0}" SelectMethod="RentalType_List" TypeName="StarTEDSystem.BLL.RentalTypesController"></asp:ObjectDataSource>
         <br />
-             <asp:DataList ID="Message" runat="server">
-                <ItemTemplate>
-                    <%# Container.DataItem %>
-                </ItemTemplate>
-             </asp:DataList>
+             
         </div>
     <div class ="row">
             <div class="col-md-6">
@@ -68,14 +82,14 @@
                 <asp:DropDownList ID="AddressDetailList" runat="server" Width="350px">
                 </asp:DropDownList>&nbsp;&nbsp;
                 <asp:Button ID="SelectAddress" runat="server" Text="Select" OnClick="SelectAddress_Click" CausesValidation="false" /><br />
-                <asp:Label ID="SelectedAddress" runat="server" ></asp:Label><asp:Label ID="AddressID" runat="server" Visible="False"></asp:Label>&nbsp;&nbsp;<br />
+                <asp:TextBox ID="SelectedAddress" runat="server" Enabled="False"></asp:TextBox><asp:Label ID="AddressID" runat="server" Visible="False"></asp:Label>&nbsp;&nbsp; <asp:Button ID="ClearAddress" runat="server" Text="Clear Address" OnClick="ClearAddress_Click" CausesValidation="false" /><br />
                 <asp:DropDownList ID="RentalTypeList" runat="server"  Width="350px" DataSourceID="RentalTypeDataSource" DataTextField="Description" DataValueField="RentalTypeID" AppendDataBoundItems="True">
                     <asp:ListItem>Select a Rental Type...</asp:ListItem>
                 </asp:DropDownList><br />
-                <asp:TextBox ID="MonthlyRent" runat="server" ></asp:TextBox><br />
-                <asp:TextBox ID="Vacancies" runat="server" ></asp:TextBox><br />
-                <asp:TextBox ID="MaxVacancy" runat="server" ></asp:TextBox><br />
-                <asp:TextBox ID="DamageDeposit" runat="server" ></asp:TextBox><br />
+                <asp:TextBox type="number" ID="MonthlyRent" runat="server" ></asp:TextBox><br />
+                <asp:TextBox type="number" ID="Vacancies" runat="server" ></asp:TextBox><br />
+                <asp:TextBox type="number" ID="MaxVacancy" runat="server" ></asp:TextBox><br />
+                <asp:TextBox type="number" ID="DamageDeposit" runat="server" ></asp:TextBox><br />
                 <asp:TextBox type="date" ID="AvailableDate" runat="server" ></asp:TextBox><br />
             </div>
         </div>

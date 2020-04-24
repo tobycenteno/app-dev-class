@@ -20,6 +20,7 @@ namespace StarTEDWebApp.Forms
         {
             Message.DataSource = null;
             Message.DataBind();
+
             if (!Page.IsPostBack)
             {
 
@@ -33,13 +34,26 @@ namespace StarTEDWebApp.Forms
             {
                 RentalsController sysmgr = new RentalsController();
                 List<Rentals> info = null;
-                info = sysmgr.Rentals_FindByLandlord(int.Parse(LandlordList.SelectedValue));
-                info.Sort((x, y) => x.AddressID.CompareTo(y.AddressID));
-                AddressSearchList.DataSource = info;
-                AddressSearchList.DataTextField = nameof(Rentals.AddressID);
-                AddressSearchList.DataValueField = nameof(Rentals.RentalID);
-                AddressSearchList.DataBind();
-                AddressSearchList.Items.Insert(0, "Select an Address...");
+
+                AddressesController addControl = new AddressesController();
+                
+                if (!string.IsNullOrEmpty(LandlordList.SelectedValue))
+                {
+                    info = sysmgr.Rentals_FindByLandlord(int.Parse(LandlordList.SelectedValue));
+
+                    foreach (Rentals item in info) // Loop through List with foreach
+                    {
+                        item.AddressName = (addControl.Addresses_FindByID(item.AddressID)).FullAddress;
+                    }
+
+                    info.Sort((x, y) => x.AddressName.CompareTo(y.AddressName));
+                    AddressSearchList.DataSource = info;
+                    AddressSearchList.DataTextField = nameof(Rentals.AddressName);
+                    AddressSearchList.DataValueField = nameof(Rentals.RentalID);
+                    AddressSearchList.DataBind();
+                    AddressSearchList.Items.Insert(0, "Select an Address...");
+                }
+                
 
             }
             catch (Exception ex)
@@ -72,7 +86,7 @@ namespace StarTEDWebApp.Forms
             if (LandlordList.SelectedIndex == 0)
             {
                 errormsgs.Add("Select a landlord to obtain rental address/es.");
-                LoadMessageDisplay(errormsgs, "alert alert-info");
+                LoadMessageDisplay(errormsgs, "alert alert-danger");
                 AddressSearchList.DataSource = null;
                 AddressSearchList.DataBind();
             }
@@ -94,13 +108,13 @@ namespace StarTEDWebApp.Forms
                     if (info.Count == 0)
                     {
                         errormsgs.Add("No data found for the landlord");
-                        LoadMessageDisplay(errormsgs, "alert alert-info");
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
                         AddressSearchList.DataSource = null;
                         AddressSearchList.DataBind();
                     }
                     else
                     {
-                        info.Sort((x, y) => x.AddressID.CompareTo(y.AddressID));
+                        info.Sort((x, y) => x.AddressName.CompareTo(y.AddressName));
                         AddressSearchList.DataSource = info;
                         AddressSearchList.DataTextField = nameof(Rentals.AddressName);
                         AddressSearchList.DataValueField = nameof(Rentals.RentalID);
@@ -120,10 +134,10 @@ namespace StarTEDWebApp.Forms
 
         protected void FindRental_Click(object sender, EventArgs e)
         {
-            if (AddressSearchList.SelectedIndex == 0)
+            if (AddressSearchList.SelectedIndex == 0 || AddressSearchList.Items.Count < 1)
             {
-                errormsgs.Add("Select a rental to maintain");
-                LoadMessageDisplay(errormsgs, "alert alert-info");
+                errormsgs.Add("Select a rental address to maintain.");
+                LoadMessageDisplay(errormsgs, "alert alert-danger");
             }
             else
             {
@@ -142,7 +156,7 @@ namespace StarTEDWebApp.Forms
                     if (info == null)
                     {
                         errormsgs.Add("Cannot find Rental in database.");
-                        LoadMessageDisplay(errormsgs, "alert alert-info");
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
                         Clear_Click(sender, e);
                     }
                     else
@@ -197,7 +211,7 @@ namespace StarTEDWebApp.Forms
             if (string.IsNullOrEmpty(AddressNumber.Text) || string.IsNullOrEmpty(AddressStreet.Text))
             {
                 errormsgs.Add("Please provide Number and Street to search.");
-                LoadMessageDisplay(errormsgs, "alert alert-info");
+                LoadMessageDisplay(errormsgs, "alert alert-danger");
 
             }
             else
@@ -211,7 +225,7 @@ namespace StarTEDWebApp.Forms
                     if (info.Count == 0)
                     {
                         errormsgs.Add("No data found for the supplied number and street.");
-                        LoadMessageDisplay(errormsgs, "alert alert-info");
+                        LoadMessageDisplay(errormsgs, "alert alert-danger");
                         AddressDetailList.DataSource = null;
                         AddressDetailList.DataBind();
                     }
@@ -260,7 +274,7 @@ namespace StarTEDWebApp.Forms
             if (AddressDetailList.SelectedIndex <= 0)
             {
                 errormsgs.Add("No address is selected.");
-                LoadMessageDisplay(errormsgs, "alert alert-info");
+                LoadMessageDisplay(errormsgs, "alert alert-danger");
                 AddressID.Text = "";
                 SelectedAddress.Text = "";
 
@@ -274,16 +288,17 @@ namespace StarTEDWebApp.Forms
 
         protected void AddRental_Click(object sender, EventArgs e)
         {
+
             if (Page.IsValid)
             {
-                if (string.IsNullOrEmpty(AddressID.Text))
+                if (int.Parse(Vacancies.Text) > int.Parse(MaxVacancy.Text))
                 {
-                    errormsgs.Add("Address is required.");
+                    errormsgs.Add("Vacancies should be less than or equal to the maximum vacancy.");
                 }
 
                 if (errormsgs.Count > 0)
                 {
-                    LoadMessageDisplay(errormsgs, "alert alert-info");
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
                 }
                 else
                 {
@@ -366,12 +381,13 @@ namespace StarTEDWebApp.Forms
 
         protected void UpdateRental_Click(object sender, EventArgs e)
         {
+
             if (Page.IsValid)
             {
 
-                if (string.IsNullOrEmpty(AddressID.Text))
+                if (int.Parse(Vacancies.Text) > int.Parse(MaxVacancy.Text))
                 {
-                    errormsgs.Add("Address is required.");
+                    errormsgs.Add("Vacancies should be less than or equal to the maximum vacancy.");
                 }
 
                 int rentalid = 0;
@@ -390,7 +406,7 @@ namespace StarTEDWebApp.Forms
 
                 if (errormsgs.Count > 0)
                 {
-                    LoadMessageDisplay(errormsgs, "alert alert-info");
+                    LoadMessageDisplay(errormsgs, "alert alert-danger");
                 }
                 else
                 {
@@ -448,7 +464,7 @@ namespace StarTEDWebApp.Forms
                         else
                         {
                             errormsgs.Add("Rental has not been updated. Rental was not found.");
-                            LoadMessageDisplay(errormsgs, "alert alert-info");
+                            LoadMessageDisplay(errormsgs, "alert alert-danger");
                             BindRentalsList(); 
 
                         }
@@ -506,7 +522,7 @@ namespace StarTEDWebApp.Forms
 
               if (errormsgs.Count > 0)
               {
-                  LoadMessageDisplay(errormsgs, "alert alert-info");
+                  LoadMessageDisplay(errormsgs, "alert alert-danger");
               }
               else
               {
@@ -529,7 +545,7 @@ namespace StarTEDWebApp.Forms
                       else
                       {
                           errormsgs.Add("Rental has not been removed. Rental was not found.");
-                          LoadMessageDisplay(errormsgs, "alert alert-warning");
+                          LoadMessageDisplay(errormsgs, "alert alert-danger");
                         BindRentalsList(); 
                         Clear_Click(sender, e);
                     }
@@ -566,6 +582,20 @@ namespace StarTEDWebApp.Forms
                   }
               }
 
+        }
+
+        protected void ClearAddress_Click(object sender, EventArgs e)
+        {
+            if(string.IsNullOrEmpty(SelectedAddress.Text))
+            {
+                errormsgs.Add("No address to be cleared..");
+                LoadMessageDisplay(errormsgs, "alert alert-danger");
+            } else
+            {
+                AddressID.Text = "";
+                SelectedAddress.Text = "";
+            }
+            
         }
     }
 }
